@@ -3,7 +3,7 @@
     "rds_port": "3306",
     "rds_user": "clarajelly_",
     "rds_password": "Clara_0625",
-    "rds_db": "OedaPlatform",
+    "rds_db": "Brazil",
     "server_host": "127.0.0.1",
     "server_port": "8080"
 }
