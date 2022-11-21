@@ -11,7 +11,7 @@ Our project will maintain regional data in addition to sales and marketing insig
 `/clean_datasets`
 This folder contains all datasets that we need for retail information. It includes data about products(categories, price, reviews, etc), geographic information, customer information, and payment information.
 
-`/client`
+### Client
 - `gitignore`: A gitignore file for the client application.
 - `package.json`: maintains the project dependency tree; defines project properties, scripts,etc 
 - `package-lock.json`: saves the exact version of each package in the application dependency tree for installs and maintenance
@@ -30,7 +30,7 @@ This folder contains the main source code for the React application. Specificall
 `/components` Similar to the `/pages` folder, but this folder contains files for React components corresponding to smaller, reusable components, especially those used by  pages. In this application, this is only the top navigation bar (described in `MenuBar.js`) used by all three pages. This is a good structure to follow for larger applications (such as the project)
 - `package.json`: Includes information about packages we use in the application.
 
-`/server`
+### Server
 This folder holds the server application files, tests, and dependencies (as required by Node.js). 
 - `gitignore`: A gitignore file for the Node application.
 - `config.json`: Holds the RDS connection credentials/information and application configuration settings (like port and host).
