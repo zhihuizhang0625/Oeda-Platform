@@ -1,16 +1,16 @@
-﻿Queries - A list of 10 SQL queries. 
+10 SQL Queries of our application:
+
+Queries - A list of 10 SQL queries. 
 Descriptions - A 1-2 sentence description of what each query is supposed to do
 
 
 1. What are the top 10 types of products customers buy from our website (in terms of both the total number of orders and total sales for each product type)? 
 
-
 Query: join Item and Product datasets, group by product category and then count the number of orders and sum up the sales amount of each order
 
-
 SELECT product_category_name_english, 
- COUNT(order_id) as order_count, 
- SUM(price) as price_sum
+ 	COUNT(order_id) as order_count, 
+ 	SUM(price) as price_sum
 FROM Product NATURAL JOIN Item NATURAL JOIN Category
 GROUP BY product_category_name
 Order BY order_count DESC, price_sum DESC
@@ -19,9 +19,7 @@ LIMIT 10;
 
 2. What are the top 10 types of products that received the most full score in customer reviews (in both 2017 and 2018)?
 
-
 Query: join order_items, order_reviews, and products, select only orders with a review score of 5, group by product category, and count the number of orders. Create subqueries for 2017 and 2018 data respectively by filtering order shipping date and selecting product types that are in both subtables
-
 
 WITH TEMP1 AS
    (SELECT product_category_name, 
@@ -38,39 +36,42 @@ ORDER BY fullscore_num DESC
 LIMIT 10;
 
 
-3. Sales differences/increment between 2016, 2017, and 2018 (or between each month) by product categories. What kind of products improved sales in 2018, and what kind of products did not? Or in what months did the sales increase?
-
+3. Query the differences of total orders between 2016, 2017, and 2018 for each product category. What kind of products improved sales (in terms of orders) in 2018, and what kind of products did not?
 
 Query: join order_items and products, group by product category, and sum the sales amount of the orders. Create subqueries for different years or different months within a year. Create a new column to calculate the difference between each year/month. Select the product categories with increments.
 
-
 WITH TEMP1 AS (SELECT product_category_name, 
-  COUNT(order_id) AS order_2016
+  	      COUNT(order_id) AS order_2016
               FROM Item
                        NATURAL JOIN Product
                        NATURAL JOIN OrderInfo
               WHERE order_purchase_year = 2016
               GROUP BY product_category_name),
-TEMP2 AS (SELECT product_category_name, count(order_id) as order_2017
-              FROM Item
-                       NATURAL JOIN Product
-                       NATURAL JOIN OrderInfo
-              WHERE order_purchase_year = 2017
-              GROUP BY product_category_name),
-TEMP3 AS (SELECT product_category_name, count(order_id) AS order_2018
-              FROM Item
-                       NATURAL JOIN Product
-                       NATURAL JOIN OrderInfo
-              WHERE order_purchase_year = 2018
-              GROUP BY product_category_name)
-SELECT product_category_name_english, order_2016, order_2017, order_2018, (order_2017 - order_2016)AS difference_2016_2017,
-          (order_2018 - order_2017)AS difference_2017_2018
+TEMP2 AS (SELECT product_category_name, 
+	  COUNT(order_id) AS order_2017
+      	  FROM Item
+	       NATURAL JOIN Product
+	       NATURAL JOIN OrderInfo
+      	  WHERE order_purchase_year = 2017
+      	  GROUP BY product_category_name),
+TEMP3 AS (SELECT product_category_name, COUNT(order_id) AS order_2018
+          FROM Item
+	       NATURAL JOIN Product
+	       NATURAL JOIN OrderInfo
+      	  WHERE order_purchase_year = 2018
+          GROUP BY product_category_name)
+SELECT product_category_name_english AS Product, 
+	order_2016, 
+	order_2017, 
+	order_2018, 
+	(order_2017 - order_2016) AS difference_2016_2017,
+        (order_2018 - order_2017) AS difference_2017_2018
 FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3 NATURAL JOIN Category;
 
 
-4. Changes in review scores between 2017 and 2018 by product categories. What kind of products improved customer reviews in 2018, what kind of products worsened?
-Query: join OrderInfo, Item, Review and Product, group by product category and averages the review scores of the orders. Create subqueries for different years or different months within a year. Create a new column to calculate the difference between each year/month. Select the product categories with increments.
+4. Query the changes in review scores between 2017 and 2018 by product categories. What kind of products improved customer reviews in 2018, what kind of products worsened?
 
+Query: join OrderInfo, Item, Review and Product, group by product category and averages the review scores of the orders. Create subqueries for different years or different months within a year. Create a new column to calculate the difference between each year/month. Select the product categories with increments.
 
 WITH TEMP1 AS (SELECT product_category_name, AVG(review_score) AS avgreview_2017
               FROM Item
@@ -91,20 +92,18 @@ SELECT product_category_name_english,  avgreview_2017, avgreview_2018,
 FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN Category;
 
 
-5. Data visualization for geographic distribution of orders and sales by years or months
+5. Data visualization for geographic distribution of orders and sales by years
+
 Query: join sellers, order_items by seller_id, group by seller_city and count the number of orders and sum the sales amount. Select the specific years/months we are interested in. 
 
-
-SELECT seller_city,order_purchase_year,order_purchase_month, count(order_id) AS order_num, sum(price) AS sale_amount
+SELECT seller_city, order_purchase_year, order_purchase_month, COUNT(order_id) AS order_num, SUM(price) AS sales_amount
 FROM Seller NATURAL JOIN Item NATURAL JOIN OrderInfo
 GROUP BY seller_city;
 
 
 6. As part of market analysis, users may want to know whether the sales of their online shopping platform are affected by the number of Walmart stores in the areas. Users may query and create a sales report for the top 5 cities with the most Walmart stores. 
 
-
 Query: For each of the five city, list the total number of Walmart stores, total number of orders (based on customer location) by year, total sales (based on product price) by year, and the most popular product category based on sales (in English) by year. The result is ordered by the number of Walmart stores.
-
 
 WITH top_cities
        AS (SELECT city, walmart
@@ -134,11 +133,11 @@ WITH top_cities
            WHERE city IN (SELECT city FROM top_cities)
            GROUP BY city, year),
    top_product
-     AS (SELECT city, year, c.product_category_name_english, SUM(price) AS sales
-         FROM orders_products op
-         JOIN Category c ON c.product_category_name = op.product_category_name
-         WHERE city IN (SELECT city FROM top_cities)
-         GROUP BY city, year, c.product_category_name_english)
+       AS (SELECT city, year, c.product_category_name_english, SUM(price) AS sales
+           FROM orders_products op
+           JOIN Category c ON c.product_category_name = op.product_category_name
+           WHERE city IN (SELECT city FROM top_cities)
+           GROUP BY city, year, c.product_category_name_english)
 SELECT tc.city AS City,
        tc.walmart AS [Number of Walmart Stores],
        tto.year AS Year,
@@ -156,122 +155,26 @@ WHERE tto.year = tp.year AND tp.sales >= ALL (SELECT sales
 ORDER BY tc.walmart DESC, tto.year;
 
 
-Output table:
-
-
-City
-	Number of Walmart Stores
-	Year
-	Number of Orders
-	Sales
-	Top Selling Product
-	1
-	x
-	2016
-	
-
-	
-
-	A
-	
-
-	x
-	2017
-	
-
-	
-
-	B
-	
-
-	x
-	2018
-	
-
-	
-
-	C
-	2
-	z
-	2016
-	
-
-	
-
-	
-
-	
-
-	z
-	2017
-	
-
-	
-
-	
-
-	
-
-	z
-	2018
-	
-
-	
-
-	
-
-	3
-	
-
-	
-
-	
-
-	
-
-	
-
-	…
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
 7. The reviews from buyers can provide insights for merchants. We list the top 10 highest average review score product. We also list the single product with highest standard deviation, which indicates that the product has polarized reviews. Users can query and create a review report for the top 10 products with highest average review score and standard deviation score. We also allow user to filter the review by a specific duration of time.
 
-
 Query: The query first creates 1 index (order_id) on order_data. Then RDBMS will automatically create any indices on primary keys of any table, so we already have indices on other table. We make use of views to temporarily store frequently used data and store information by joining fours table. After we acquire the review score for specific category, we group by product category and calculate the average review score and standard deviation of review score. Finally we order the products by sorting average score in a descending order and standard deviation score in an ascending order. The filtered 10 products are the ones with highest average review score and relatively less polarized. We set the threshold of number of review to 3 so that the review score is more representative.
-
 
 CREATE INDEX order_id_index
 ON OrderInfo(order_id);
 
-
-
-
 WITH temp
-AS (SELECT R.review_id AS review_id,
-R.review_score AS review_score,
-P.product_id AS product_id,
-C.product_category_name_english AS product_category
-FROM Review R
-JOIN Item I
-ON I.order_id = R.order_id
-JOIN Product P
-ON P.product_id = I.product_id
-JOIN Category C
-ON C.product_category_name =
-       P.product_category_name
-)
+	AS (SELECT R.review_id AS review_id,
+		   R.review_score AS review_score,
+		   P.product_id AS product_id,
+		   C.product_category_name_english AS product_category
+	FROM Review R
+	JOIN Item I
+	ON I.order_id = R.order_id
+	JOIN Product P
+	ON P.product_id = I.product_id
+	JOIN Category C
+	ON C.product_category_name =
+	       P.product_category_name)
 SELECT product_category,
 AVG(review_score) AS avg_review_score,
 STDDEV(review_score) AS std_dev_review_score,
@@ -284,7 +187,6 @@ LIMIT 10;
 
 
 8. Filter the data based on geolocational state information to find our details of sales from the specific state. 
-
 
 SELECT * FROM Item 
 NATURAL JOIN City 
@@ -301,20 +203,15 @@ WHERE seller_state= 'PR';
 
 9. Data visualization based on monthly sales. Compare 12 months to see which month of the year has the highest amount of sales.
 
-
 SELECT order_purchase_month, SUM(price) AS total_sales
 FROM  OrderInfo NATURAl JOIN Item
 GROUP BY order_purchase_month
 ORDER BY order_purchase_month;
 
 
-
-
 10. As part of sales analysis, users may want to see the differences (increment/decrement) of the average sales for each product type in 2016 v.s. 2017 and 2017 v.s. 2018. Users may gain insights into which product categories can potentially improve their sales Aims and make decisions on future investments and plans.
 
-
 Query: join Payment, OrderInfo, Item, and Product, group by product category, and average the payment values of the orders. Create subqueries for different years. Create a new column to calculate the difference between each year. Select the product categories and differences in average payment values.
-
 
 WITH TEMP1
    AS (SELECT product_category_name, AVG(payment_value) AS avgpayment_2016
@@ -348,9 +245,9 @@ SELECT product_category_name_english,
       ROUND((avgpayment_2018 - avgpayment_2017), 2) AS paydiff_17_18
 FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3 NATURAL JOIN Category
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Credentials - Instructions and guest credentials for accessing the database:
-
 
 db_config = {
     "username" : "clarajelly_",
@@ -358,3 +255,4 @@ db_config = {
     "port": "3306",
     "password": "Clara_0625"
 }
+
