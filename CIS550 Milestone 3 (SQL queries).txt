@@ -171,11 +171,11 @@ WITH top_cities
            WHERE city IN (SELECT city FROM top_cities)
            GROUP BY city, year, c.product_category_name_english)
 SELECT tc.city AS City,
-       tc.walmart AS [Number of Walmart Stores],
+       tc.walmart AS 'Number of Walmart Stores',
        tto.year AS Year,
-       tto.count AS [Number of Orders],
+       tto.count AS 'Number of Orders',
        ts.sales AS Sales,
-       tp.product_category_name_english AS [Top Selling Product]
+       tp.product_category_name_english AS 'Top Selling Product'
 FROM top_cities tc
 NATURAL JOIN total_orders tto
 NATURAL JOIN total_sales ts
