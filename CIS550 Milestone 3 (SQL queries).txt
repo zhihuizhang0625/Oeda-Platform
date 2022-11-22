@@ -217,42 +217,42 @@ ORDER BY avg_review_score DESC, std_dev_review_score ASC
 LIMIT 10;
 
 
-10. As part of sales analysis, users may want to see the differences (increment/decrement) of the average sales for each product type in 2016 v.s. 2017 and 2017 v.s. 2018. Users may gain insights into which product categories can potentially improve their sales Aims and make decisions on future investments and plans.
+10. As part of sales analysis, retail companies may want to learn about different payment habits of customers in different states. This query compares the differences in total, average, max, and min payment values by credit card users and boleto (bank tickets) users from each state. Businesses may gain geographical insights on customers’ paying habits and make decisions on future investments and plans.
 
-Query: join Payment, OrderInfo, Item, and Product, group by product category, and average the payment values of the orders. Create subqueries for different years. Create a new column to calculate the difference between each year. Select the product categories and differences in average payment values.
+Query: join Customer, OrderInfo, Item, and Payment, group by customer state, and calculate the sum, average, max, and min of the payment values of the orders. Create subqueries for customers using credit cards and boleto (bank tickets) respectively. Create a new column to calculate the difference between different types of customers. Select the product categories and differences in total, average, max, and min payment values.
 
 WITH TEMP1
-   AS (SELECT product_category_name, AVG(payment_value) AS avgpayment_2016
-         FROM Item
-                  NATURAL JOIN Product
-                  NATURAL JOIN OrderInfo
-                  NATURAL JOIN Payment
-         WHERE order_purchase_year = 2016
-         GROUP BY product_category_name),
+  AS (SELECT customer_state, SUM(payment_value) AS total_payment_credit,
+             AVG(payment_value) AS avg_payment_credit,
+             MIN(payment_value) AS min_payment_credit,
+             MAX(payment_value) AS max_payment_credit
+        FROM Item
+                 NATURAL JOIN Product
+                 NATURAL JOIN OrderInfo
+                 NATURAL JOIN Payment
+                 NATURAL JOIN Customer
+        WHERE payment_type     = 'credit_card'
+        GROUP BY customer_state),
 TEMP2
-   AS (SELECT product_category_name, AVG(payment_value) AS avgpayment_2017
-         FROM Item
-                  NATURAL JOIN Product
-                  NATURAL JOIN OrderInfo
-                  NATURAL JOIN Payment
-         WHERE order_purchase_year = 2017
-         GROUP BY product_category_name),
-TEMP3
-   AS (SELECT product_category_name, AVG(payment_value) AS avgpayment_2018
-         FROM Item
-                  NATURAL JOIN Product
-                  NATURAL JOIN OrderInfo
-                  NATURAL JOIN Payment
-         WHERE order_purchase_year = 2018
-         GROUP BY product_category_name)
-SELECT product_category_name_english,
-      ROUND(avgpayment_2016, 2),
-      ROUND(avgpayment_2017, 2),
-      ROUND(avgpayment_2018, 2),
-      ROUND((avgpayment_2017 - avgpayment_2016), 2) AS paydiff_16_17,
-      ROUND((avgpayment_2018 - avgpayment_2017), 2) AS paydiff_17_18
-FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3 NATURAL JOIN Category
+  AS (SELECT customer_state, SUM(payment_value) as total_payment_boleto,
+             AVG(payment_value) AS avg_payment_boleto,
+             MIN(payment_value) AS min_payment_boleto,
+             MAX(payment_value) AS max_payment_boleto
+        FROM Item
+                 NATURAL JOIN Product
+                 NATURAL JOIN OrderInfo
+                 NATURAL JOIN Payment
+                 NATURAL JOIN Customer
+        WHERE payment_type = 'boleto'
+        GROUP BY customer_state)
 
+SELECT DISTINCT customer_state,
+     ROUND((total_payment_credit - total_payment_boleto), 2) AS total_paydiff,
+     ROUND((avg_payment_credit - avg_payment_boleto), 2) AS avg_paydiff,
+     ROUND((max_payment_credit - max_payment_boleto), 2) AS max_paydiff,
+     ROUND((min_payment_credit - min_payment_boleto), 2) AS min_paydiff
+FROM TEMP1 NATURAL JOIN TEMP2
+ORDER BY total_paydiff DESC
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Credentials - Instructions and guest credentials for accessing the database:
