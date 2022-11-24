@@ -9,7 +9,7 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+// import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
@@ -96,6 +96,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
+                  // TODO: replace it with user's image
                   src={`../../assets/user.png`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
@@ -107,7 +108,8 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
+                  {/* TODO: Replace it with user's name*/}
+                  Huifang Ye
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   VP Fancy Admin
@@ -165,13 +167,6 @@ const Sidebar = () => {
               title="Profile Form"
               to="/form"
               icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Calendar"
-              to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

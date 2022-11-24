@@ -36,6 +36,11 @@ const PieChart = () => {
             fill: colors.grey[100],
           },
         },
+        tooltip: {
+          container: {
+            color: colors.primary[500],
+          },
+        },
       }}
       margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
       innerRadius={0.5}
@@ -50,7 +55,7 @@ const PieChart = () => {
       arcLinkLabelsTextColor={colors.grey[100]}
       arcLinkLabelsThickness={2}
       arcLinkLabelsColor={{ from: "color" }}
-      enableArcLabels={false}
+      enableArcLabels={true}
       arcLabelsRadiusOffset={0.4}
       arcLabelsSkipAngle={7}
       arcLabelsTextColor={{

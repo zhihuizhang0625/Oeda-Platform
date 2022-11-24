@@ -38,6 +38,11 @@ const BarChart = ({ isDashboard = false }) => {
             fill: colors.grey[100],
           },
         },
+        tooltip: {
+          container: {
+            color: colors.primary[500],
+          },
+        },
       }}
       keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
       indexBy="country"
@@ -123,6 +128,7 @@ const BarChart = ({ isDashboard = false }) => {
       barAriaLabel={function (e) {
         return e.id + ": " + e.formattedValue + " in country: " + e.indexValue;
       }}
+      isInteractive={true}
     />
   );
 };

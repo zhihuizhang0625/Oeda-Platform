@@ -52,7 +52,7 @@ const Team = () => {
                 ? colors.greenAccent[600]
                 : access === "manager"
                 ? colors.greenAccent[700]
-                : colors.greenAccent[700]
+                : colors.greenAccent[500]
             }
             borderRadius="4px"
           >
