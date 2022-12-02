@@ -12,10 +12,18 @@ import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
+import { useEffect } from "react";
+import { getToTalOrder } from "../../fetcher";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  useEffect(() => {
+    getToTalOrder().then((res) => {
+      console.log("hi", res.results);
+    });
+  });
 
   return (
     <Box m="20px">
