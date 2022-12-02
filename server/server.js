@@ -15,27 +15,37 @@ app.use(cors({ credentials: true, origin: ['http://localhost:3000'] }));
 app.get('/hello', routes.hello)
 
 // Route 2 - register as GET 
-app.get('/jersey/:choice', routes.jersey)
+app.get('/YearlyOrder', routes.yearly_order)
 
 // Route 3 - register as GET 
-app.get('/matches/:league', routes.all_matches)
+app.get('/YearlySales', routes.yearly_sales)
 
 // Route 4 - register as GET 
-app.get('/players', routes.all_players)
+app.get('/YearlyReview', routes.yearly_review)
 
 // Route 5 - register as GET 
-app.get('/match', routes.match)
+app.get('/YearlyState', routes.yearly_state)
 
 // Route 6 - register as GET 
-app.get('/player', routes.player)
+app.get('/search', routes.search)
 
 // Route 7 - register as GET 
-app.get('/search/matches', routes.search_matches)
+app.get('/allmarket', routes.all_market)
 
 // Route 8 - register as GET 
-app.get('/search/players', routes.search_players)
+app.get('/market', routes.market)
 
+// Route 9 - register as GET 
+app.get('/allreview', routes.all_review)
 
+// Route 10 - register as GET 
+app.get('/review', routes.review)
+
+// Route 11 - register as GET 
+app.get('/allhabit', routes.all_habit)
+
+// Route 12 - register as GET 
+app.get('/habit', routes.habit)
 
 
 

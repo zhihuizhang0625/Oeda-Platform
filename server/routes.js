@@ -12,6 +12,7 @@ const connection = mysql.createConnection({
 });
 connection.connect();
 
+
 // ********************************************
 //            SIMPLE ROUTE EXAMPLE
 // ********************************************
@@ -20,286 +21,502 @@ connection.connect();
 async function hello(req, res) {
     // a GET request to /hello?name=Steve
     if (req.query.name) {
-        res.send(`Hello, ${req.query.name}! Welcome to the FIFA server!`)
+        res.send(`Hi, ${req.query.name}! Welcome to the Oeda Platform!`)
     } else {
-        res.send(`Hello! Welcome to the FIFA server!`)
+        res.send(`Hi! Welcome to the Oeda Platform!`)
     }
 }
 
 
 // ********************************************
-//                  WARM UP 
+//                  DASHBOARD 
 // ********************************************
 
 // Route 2 (handler)
-async function jersey(req, res) {
-    const colors = ['red', 'blue']
-    const jersey_number = Math.floor(Math.random() * 20) + 1
-    const name = req.query.name ? req.query.name : "player"
+async function yearly_order(req, res) {
+    connection.query(`WITH TEMP1 AS (SELECT COUNT(order_id) AS order_2016
+    FROM OrderInfo
+    WHERE order_purchase_year = 2016),
+TEMP2 AS (SELECT COUNT(order_id) AS order_2017
+    FROM OrderInfo
+    WHERE order_purchase_year = 2017),
+TEMP3 AS (SELECT COUNT(order_id) AS order_2018
+    FROM OrderInfo
+    WHERE order_purchase_year = 2018)
+SELECT order_2016, order_2017, order_2018,
+(order_2017 - order_2016) AS difference_2016_2017,
+(order_2018 - order_2017) AS difference_2017_2018
+FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3`, function (error, results, fields) {
 
-    if (req.params.choice === 'number') {
-        // TODO: TASK 1: inspect for issues and correct 
-        res.json({ message: `Hello, ${name}!`, jersey_number: jersey_number })
-    } else if (req.params.choice === 'color') {
-        var lucky_color_index = Math.floor(Math.random() * 1) + 1;
-        // TODO: TASK 2: change this or any variables above to return only 'red' or 'blue' at random (go Quakers!)
-        res.json({ message: `Hello, ${name}!`, jersey_color: colors[lucky_color_index] })
-    } else {
-        // TODO: TASK 3: inspect for issues and correct
-        res.json({ message: `Hello, ${name}, we like your jersey!` })
-    }
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
+}
+async function yearly_sales(req, res) {
+    connection.query(`WITH TEMP1 AS (SELECT SUM(Payment_value) AS sales_2016
+    FROM Payment NATURAL JOIN OrderInfo
+    WHERE order_purchase_year = 2016),
+TEMP2 AS (SELECT SUM(Payment_value) AS sales_2017
+    FROM Payment NATURAL JOIN OrderInfo
+    WHERE order_purchase_year = 2017),
+TEMP3 AS (SELECT SUM(Payment_value) AS sales_2018
+    FROM Payment NATURAL JOIN OrderInfo
+    WHERE order_purchase_year = 2018)
+SELECT sales_2016, sales_2017, sales_2018,
+(sales_2017 - sales_2016) AS difference_2016_2017,
+(sales_2018 - sales_2017) AS difference_2017_2018
+FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
+}
+async function yearly_review(req, res) {
+    connection.query(`WITH TEMP1 AS (SELECT AVG(review_score) AS review_2017
+    FROM Review NATURAL JOIN OrderInfo
+    WHERE order_purchase_year = 2017),
+TEMP2 AS (SELECT AVG(review_score) AS review_2018
+    FROM Review NATURAL JOIN OrderInfo
+    WHERE order_purchase_year = 2018)
+SELECT review_2017, review_2018,
+(review_2018 - review_2017) AS difference_2017_2018
+FROM TEMP1 NATURAL JOIN TEMP2;`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
+}
+
+async function yearly_state(req, res) {
+    connection.query(`WITH TEMP1 AS (SELECT COUNT(DISTINCT customer_state) AS state_2016 
+    FROM Customer NATURAL JOIN OrderInfo 
+    WHERE order_purchase_year = 2016),
+TEMP2 AS (SELECT COUNT(DISTINCT customer_state) AS state_2017 
+    FROM Customer NATURAL JOIN OrderInfo 
+    WHERE order_purchase_year = 2017),
+TEMP3 AS (SELECT COUNT(DISTINCT customer_state) AS state_2018 
+    FROM Customer NATURAL JOIN OrderInfo 
+    WHERE order_purchase_year = 2018)
+SELECT state_2016, state_2017, state_2018,
+(state_2017 - state_2016) AS difference_2016_2017,
+(state_2018 - state_2017) AS difference_2017_2018
+FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3;`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
 }
 
 // ********************************************
-//               GENERAL ROUTES
+//               ANALYTICS 
 // ********************************************
 
-
-// Route 3 (handler)
-async function all_matches(req, res) {
-    // TODO: TASK 4: implement and test, potentially writing your own (ungraded) tests
-    // We have partially implemented this function for you to 
-    // parse in the league encoding - this is how you would use the ternary operator to set a variable to a default value
-    // we didn't specify this default value for league, and you could change it if you want! 
-    // in reality, league will never be undefined since URLs will need to match matches/:league for the request to be routed here... 
-    const league = req.params.league ? req.params.league : 'D1'
-    // use this league encoding in your query to furnish the correct results
-    if (req.query.page && !isNaN(req.query.page)) {
-        // This is the case where page is defined.
-        // The SQL schema has the attribute OverallRating, but modify it to match spec! 
-        // TODO: query and return results here:
-        const page = req.query.page
-        const pagesize = req.query.pagesize ? req.query.pagesize : 10
-        connection.query(`SELECT MatchId, Date, Time, HomeTeam AS Home, AwayTeam AS Away, FullTimeGoalsH AS HomeGoals, FullTimeGoalsA AS AwayGoals  
-        FROM Matches 
-        WHERE Division = '${league}'
-        ORDER BY HomeTeam, AwayTeam
-            OFFSET ${(page - 1) * pagesize}
-            FETCH NEXT ${pagesize} ROWS ONLY`, function (error, results, fields) {
-            if (error) {
-                console.log(error)
-                res.json({ error: error })
-            } else if (results) {
-                res.json({ results: results })
-            }
-        });
-    } else {
-        // we have implemented this for you to see how to return results by querying the database
-        connection.query(`SELECT MatchId, Date, Time, HomeTeam AS Home, AwayTeam AS Away, FullTimeGoalsH AS HomeGoals, FullTimeGoalsA AS AwayGoals  
-        FROM Matches 
-        WHERE Division = '${league}'
-        ORDER BY HomeTeam, AwayTeam`, function (error, results, fields) {
-            if (error) {
-                console.log(error)
-                res.json({ error: error })
-            } else if (results) {
-                res.json({ results: results })
-            }
-        });
+async function search(req, res) {
+    var category = req.query.category ? req.query.category : '';
+    var low = req.query.low ? req.query.low : 0;
+    var high = req.query.high ? req.query.high : 10000000;
+    var year = req.query.year ? req.query.year : 2018;
+    var month = req.query.month ? req.query.month : 8;
+    var page = 1;
+    var pagesize = 10;
+    if (!isNaN(req.query.page)) {
+        page = (req.query.page - 1) * 10;
     }
-}
-
-// Route 4 (handler)
-async function all_players(req, res) {
-    // TODO: TASK 5: implement and test, potentially writing your own (ungraded) tests
-    if (req.query.page && !isNaN(req.query.page)) {
-        const page = req.query.page
-        const pagesize = req.query.pagesize ? req.query.pagesize : 10
-        connection.query(`SELECT PlayerId, Name, Nationality, OverallRating AS Rating, Potential, Club, Value  
-        FROM Players 
-        ORDER BY Name
-            OFFSET ${(page - 1) * pagesize}
-            FETCH NEXT ${pagesize} ROWS ONLY`, function (error, results, fields) {
-            if (error) {
-                console.log(error)
-                res.json({ error: error })
-            } else if (results) {
-                res.json({ results: results })
-            }
-        });
-    } else {
-        connection.query(`SELECT PlayerId, Name, Nationality, OverallRating AS Rating, Potential, Club, Value  
-        FROM Players 
-        ORDER BY Name`, function (error, results, fields) {
-            if (error) {
-                console.log(error)
-                res.json({ error: error })
-            } else if (results) {
-                res.json({ results: results })
-            }
-        });
+    if (!isNaN(req.query.pagesize)) {
+        pagesize = req.query.pagesize; 
     }
+    
+    connection.query(`SELECT customer_id, order_id, price, product_category_name_english AS category, order_purchase_year AS year,
+    order_purchase_month AS month, review_score, customer_city
+ FROM Customer NATURAL JOIN Review NATURAL JOIN OrderInfo
+ NATURAL JOIN Product NATURAL JOIN Category NATURAL JOIN Item
+ WHERE product_category_name_english LIKE '%${category}%'
+ AND price > ${low} AND price < ${high} AND order_purchase_year = ${year} AND order_purchase_month = ${month}
+ LIMIT ${page}, ${pagesize};`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
+
 }
 
 
 // ********************************************
-//             MATCH-SPECIFIC ROUTES
+//             MARKET ANALYSIS ROUTES
 // ********************************************
+
+async function all_market(req, res) {
+    connection.query(`WITH top_cities
+    AS (SELECT city, walmart
+        FROM City
+        ORDER BY walmart DESC
+        LIMIT 5),
+ orders_products
+    AS (SELECT O.order_id,
+            O.order_deliver_customer_year AS year,
+            C.customer_id,
+            C.customer_city AS city,
+            P.product_id,
+            P.product_category_name,
+            I.price
+        FROM OrderInfo O
+        JOIN Item I ON O.order_id = I.order_id
+        JOIN Product P ON I.product_id = P.product_id
+        JOIN Customer C ON O.customer_id = C.customer_id),
+total_orders AS (SELECT city, year, COUNT(DISTINCT order_id) AS count
+        FROM orders_products
+        WHERE city IN (SELECT city FROM top_cities)
+        GROUP BY city, year),
+total_sales
+    AS (SELECT city, year, SUM(price) AS sales
+        FROM orders_products
+        WHERE city IN (SELECT city FROM top_cities)
+        GROUP BY city, year),
+top_product
+    AS (SELECT city, year, c.product_category_name_english, SUM(price) AS sales
+        FROM orders_products op
+        JOIN Category c ON c.product_category_name = op.product_category_name
+        WHERE city IN (SELECT city FROM top_cities)
+        GROUP BY city, year, c.product_category_name_english)
+SELECT tc.city AS City,
+    tc.walmart AS 'Number of Walmart Stores',
+    tto.year AS Year,
+    tto.count AS 'Number of Orders',
+    ts.sales AS Sales,
+    tp.product_category_name_english AS 'Top Selling Product'
+FROM top_cities tc
+NATURAL JOIN total_orders tto
+NATURAL JOIN total_sales ts
+JOIN top_product tp ON tc.city = tp.city
+WHERE tto.year = tp.year AND tp.sales >= ALL (SELECT sales
+                                           FROM top_product tp
+                                           WHERE tp.city = tc.city
+                                           AND tp.year = tto.year)
+ORDER BY tc.walmart DESC, tto.year`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
+}
 
 // Route 5 (handler)
-async function match(req, res) {
-    // TODO: TASK 6: implement and test, potentially writing your own (ungraded) tests
-    const matchId = req.query.id;
-    if (!Number.isInteger(parseInt(matchId))) {
-        res.json({ error: "Id is not an integer" })
-    } else {
-        connection.query(`SELECT MatchId, Date, Time, HomeTeam AS Home, AwayTeam AS Away, FullTimeGoalsH AS HomeGoals, FullTimeGoalsA AS AwayGoals,
-            HalfTimeGoalsH AS HTHomeGoals, HalfTimeGoalsA AS HTAwayGoals, ShotsH AS ShotsHome, ShotsA AS ShotsAway, ShotsOnTargetH AS ShotsOnTargetHome, 
-            ShotsOnTargetA AS ShotsOnTargetAway, FoulsH AS FoulsHome, FoulsA AS FoulsAway, CornersH AS CornersHome, CornersA AS CornersAway,
-            YellowCardsH AS YCHome, YellowCardsA AS YCAway, RedCardsH AS RCHome, RedCardsA AS RCAway
-        FROM Matches
-        WHERE MatchId = '${matchId}'`, function (error, results, fields) {
-            if (error) {
-                console.log(error)
-                res.json({ error: error })
-            } else if (results) {
-                res.json({ results: results })
-            }
-        });
-    }
+async function market(req, res) {
+    var city = req.query.city ? req.query.city : 'salvador';
+    connection.query(`WITH top_cities
+    AS (SELECT city, walmart
+        FROM City
+        ORDER BY walmart DESC
+        LIMIT 5),
+ orders_products
+    AS (SELECT O.order_id,
+            O.order_deliver_customer_year AS year,
+            C.customer_id,
+            C.customer_city AS city,
+            P.product_id,
+            P.product_category_name,
+            I.price
+        FROM OrderInfo O
+        JOIN Item I ON O.order_id = I.order_id
+        JOIN Product P ON I.product_id = P.product_id
+        JOIN Customer C ON O.customer_id = C.customer_id),
+total_orders AS (SELECT city, year, COUNT(DISTINCT order_id) AS count
+        FROM orders_products
+        WHERE city IN (SELECT city FROM top_cities)
+        GROUP BY city, year),
+total_sales
+    AS (SELECT city, year, SUM(price) AS sales
+        FROM orders_products
+        WHERE city IN (SELECT city FROM top_cities)
+        GROUP BY city, year),
+top_product
+    AS (SELECT city, year, c.product_category_name_english, SUM(price) AS sales
+        FROM orders_products op
+        JOIN Category c ON c.product_category_name = op.product_category_name
+        WHERE city IN (SELECT city FROM top_cities)
+        GROUP BY city, year, c.product_category_name_english)
+SELECT tc.city AS City,
+    tc.walmart AS 'Number of Walmart Stores',
+    tto.year AS Year,
+    tto.count AS 'Number of Orders',
+    ts.sales AS Sales,
+    tp.product_category_name_english AS 'Top Selling Product'
+FROM top_cities tc
+NATURAL JOIN total_orders tto
+NATURAL JOIN total_sales ts
+JOIN top_product tp ON tc.city = tp.city
+WHERE tto.year = tp.year AND tc.City = '${city}' AND tp.sales >= ALL (SELECT sales
+                                           FROM top_product tp
+                                           WHERE tp.city = tc.city
+                                           AND tp.year = tto.year)
+ORDER BY tc.walmart DESC, tto.year`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
 }
 
+
 // ********************************************
-//            PLAYER-SPECIFIC ROUTES
+//            Product Review ROUTES
 // ********************************************
 
 // Route 6 (handler)
-async function player(req, res) {
-    // TODO: TASK 7: implement and test, potentially writing your own (ungraded) tests
-    const playerId = req.query.id;
-    if (!Number.isInteger(parseInt(playerId))) {
-        res.json({ error: "Id is not an integer" })
-    } else {
-        connection.query(`SELECT PlayerId, BestPosition
-        FROM Players
-        WHERE PlayerId = '${playerId}'`, function (error, results, fields) {
-            if (error) {
-                console.log(error)
-                res.json({ error: error })
-            } else if (results) {
-                console.log("first res: ", results)
-                if (results[0]['BestPosition'] == 'GK') {
-                    connection.query(`SELECT PlayerId, Name, Age, Photo, Nationality, Flag, OverallRating AS Rating, Potential, Club, ClubLogo, Value, Wage,
-                        InternationalReputation, Skill, JerseyNumber, ContractValidUntil, Height, Weight, BestPosition, BestOverallRating, ReleaseClause,
-                        GKPenalties, GKDiving, GKHandling, GKKicking, GKPositioning, GKReflexes
-                    FROM Players
-                    WHERE PlayerId = '${playerId}'`, function (error, results) {
-                        if (error) {
-                            res.json({ error: error })
-                        } else {
-                            console.log("second res: ", results)
-                            res.json({ results: results })
-                        }
-                    })
-                } else {
-                    connection.query(`SELECT PlayerId, Name, Age, Photo, Nationality, Flag, OverallRating AS Rating, Potential, Club, ClubLogo, Value, Wage,
-                        InternationalReputation, Skill, JerseyNumber, ContractValidUntil, Height, Weight, BestPosition, BestOverallRating, ReleaseClause,
-                        NPassing, NBallControl, NAdjustedAgility, NStamina, NStrength, NPositioning
-                    FROM Players
-                    WHERE PlayerId = '${playerId}'`, function (error, results) {
-                        if (error) {
-                            res.json({ error: error })
-                        } else {
-                            console.log("second res: ", results)
-                            res.json({ results: results })
-                        }
-                    })
-                }
-            }
-        });
-    }
+async function all_review(req, res) {
+    connection.query(`WITH temp
+	AS (SELECT R.review_id AS review_id,
+		   R.review_score AS review_score,
+		   P.product_id AS product_id,
+		   C.product_category_name_english AS product_category
+	FROM Review R
+	JOIN Item I
+	ON I.order_id = R.order_id
+	JOIN Product P
+	ON P.product_id = I.product_id
+	JOIN Category C
+	ON C.product_category_name = P.product_category_name)
+SELECT product_category,
+AVG(review_score) AS avg_review_score,
+STDDEV(review_score) AS std_dev_review_score,
+COUNT(*) AS review_num
+FROM temp
+GROUP BY product_category
+HAVING COUNT(*) > 3
+ORDER BY avg_review_score DESC, std_dev_review_score ASC
+LIMIT 10`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
 }
 
-// Route 7 (handler)
-async function search_matches(req, res) {
-    // TODO: TASK 8: implement and test, potentially writing your own (ungraded) tests
-    // IMPORTANT: in your SQL LIKE matching, use the %query% format to match the search query to substrings, not just the entire string
-    const home = req.query.Home ? req.query.Home : ""
-    const away = req.query.Away ? req.query.Away : ""
-    if (req.query.page && !isNaN(req.query.page)) {
-        const page = req.query.page
-        const pagesize = req.query.pagesize ? req.query.pagesize : 10
-        connection.query(`SELECT MatchId, Date, Time, HomeTeam AS Home, AwayTeam AS Away, FullTimeGoalsH AS HomeGoals, FullTimeGoalsA AS AwayGoals
-        FROM Matches
-        WHERE HomeTeam LIKE '%${home}%' AND AwayTeam LIKE '%${away}%'
-        ORDER BY HomeTeam, AwayTeam
-            OFFSET ${(page - 1) * pagesize}
-            FETCH NEXT ${pagesize} ROWS ONLY`, function (error, results, fields) {
-            if (error) {
-                console.log(error)
-                res.json({ error: error })
-            } else if (results) {
-                res.json({ results: results })
-            }
-        });
-    } else {
-        connection.query(`SELECT MatchId, Date, Time, HomeTeam AS Home, AwayTeam AS Away, FullTimeGoalsH AS HomeGoals, FullTimeGoalsA AS AwayGoals
-        FROM Matches
-        WHERE HomeTeam LIKE '%${home}%' AND AwayTeam LIKE '%${away}%'
-        ORDER BY HomeTeam, AwayTeam`, function (error, results, fields) {
-            if (error) {
-                console.log(error)
-                res.json({ error: error })
-            } else if (results) {
-                res.json({ results: results })
-            }
-        });
-    }
+async function review(req, res) {
+    var category = req.query.category ? req.query.category : 'home appliances';
+    connection.query(`WITH temp
+	AS (SELECT R.review_id AS review_id,
+		   R.review_score AS review_score,
+		   P.product_id AS product_id,
+		   C.product_category_name_english AS product_category
+	FROM Review R
+	JOIN Item I
+	ON I.order_id = R.order_id
+	JOIN Product P
+	ON P.product_id = I.product_id
+	JOIN Category C
+	ON C.product_category_name = P.product_category_name)
+SELECT product_category,
+AVG(review_score) AS avg_review_score,
+STDDEV(review_score) AS std_dev_review_score,
+COUNT(*) AS review_num
+FROM temp
+WHERE product_category = '${category}'
+GROUP BY product_category
+HAVING COUNT(*) > 3
+ORDER BY avg_review_score DESC, std_dev_review_score ASC
+LIMIT 10`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
 }
+
+
+
+// ********************************************
+//            Payment Habit ROUTES
+// ********************************************
+
+// Route 6 (handler)
+async function all_habit(req, res) {
+    var page = 0;
+    var pagesize = 10;
+    if (!isNaN(req.query.page)) {
+        page = (req.query.page - 1) * 10;
+    }
+    if (!isNaN(req.query.pagesize)) {
+        pagesize = req.query.pagesize; 
+    }
+if (req.query.page && !isNaN(req.query.page)) {
+    connection.query(`WITH TEMP1
+    AS (SELECT customer_state, SUM(payment_value) AS total_payment_credit,
+               AVG(payment_value) AS avg_payment_credit,
+               MIN(payment_value) AS min_payment_credit,
+               MAX(payment_value) AS max_payment_credit
+          FROM Item
+                   NATURAL JOIN Product
+                   NATURAL JOIN OrderInfo
+                   NATURAL JOIN Payment
+                   NATURAL JOIN Customer
+          WHERE payment_type     = 'credit_card'
+          GROUP BY customer_state),
+  TEMP2
+    AS (SELECT customer_state, SUM(payment_value) as total_payment_boleto,
+               AVG(payment_value) AS avg_payment_boleto,
+               MIN(payment_value) AS min_payment_boleto,
+               MAX(payment_value) AS max_payment_boleto
+          FROM Item
+                   NATURAL JOIN Product
+                   NATURAL JOIN OrderInfo
+                   NATURAL JOIN Payment
+                   NATURAL JOIN Customer
+          WHERE payment_type = 'boleto'
+          GROUP BY customer_state)
+  
+  SELECT DISTINCT customer_state,
+       ROUND((total_payment_credit - total_payment_boleto), 2) AS total_paydiff,
+       ROUND((avg_payment_credit - avg_payment_boleto), 2) AS avg_paydiff,
+       ROUND((max_payment_credit - max_payment_boleto), 2) AS max_paydiff,
+       ROUND((min_payment_credit - min_payment_boleto), 2) AS min_paydiff
+  FROM TEMP1 NATURAL JOIN TEMP2
+  ORDER BY total_paydiff DESC
+  LIMIT ${page}, ${pagesize}`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
+} else{
+    connection.query(`WITH TEMP1
+    AS (SELECT customer_state, SUM(payment_value) AS total_payment_credit,
+               AVG(payment_value) AS avg_payment_credit,
+               MIN(payment_value) AS min_payment_credit,
+               MAX(payment_value) AS max_payment_credit
+          FROM Item
+                   NATURAL JOIN Product
+                   NATURAL JOIN OrderInfo
+                   NATURAL JOIN Payment
+                   NATURAL JOIN Customer
+          WHERE payment_type     = 'credit_card'
+          GROUP BY customer_state),
+  TEMP2
+    AS (SELECT customer_state, SUM(payment_value) as total_payment_boleto,
+               AVG(payment_value) AS avg_payment_boleto,
+               MIN(payment_value) AS min_payment_boleto,
+               MAX(payment_value) AS max_payment_boleto
+          FROM Item
+                   NATURAL JOIN Product
+                   NATURAL JOIN OrderInfo
+                   NATURAL JOIN Payment
+                   NATURAL JOIN Customer
+          WHERE payment_type = 'boleto'
+          GROUP BY customer_state)
+  
+  SELECT DISTINCT customer_state,
+       ROUND((total_payment_credit - total_payment_boleto), 2) AS total_paydiff,
+       ROUND((avg_payment_credit - avg_payment_boleto), 2) AS avg_paydiff,
+       ROUND((max_payment_credit - max_payment_boleto), 2) AS max_paydiff,
+       ROUND((min_payment_credit - min_payment_boleto), 2) AS min_paydiff
+  FROM TEMP1 NATURAL JOIN TEMP2
+  ORDER BY total_paydiff DESC`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
+}}
+
+async function habit(req, res) {
+    var state = req.params.category ? req.params.category : 'SP';
+    connection.query(`WITH TEMP1
+    AS (SELECT customer_state, SUM(payment_value) AS total_payment_credit,
+               AVG(payment_value) AS avg_payment_credit,
+               MIN(payment_value) AS min_payment_credit,
+               MAX(payment_value) AS max_payment_credit
+          FROM Item
+                   NATURAL JOIN Product
+                   NATURAL JOIN OrderInfo
+                   NATURAL JOIN Payment
+                   NATURAL JOIN Customer
+          WHERE payment_type     = 'credit_card'
+          GROUP BY customer_state),
+  TEMP2
+    AS (SELECT customer_state, SUM(payment_value) as total_payment_boleto,
+               AVG(payment_value) AS avg_payment_boleto,
+               MIN(payment_value) AS min_payment_boleto,
+               MAX(payment_value) AS max_payment_boleto
+          FROM Item
+                   NATURAL JOIN Product
+                   NATURAL JOIN OrderInfo
+                   NATURAL JOIN Payment
+                   NATURAL JOIN Customer
+          WHERE payment_type = 'boleto'
+          GROUP BY customer_state)
+  
+  SELECT DISTINCT customer_state,
+       ROUND((total_payment_credit - total_payment_boleto), 2) AS total_paydiff,
+       ROUND((avg_payment_credit - avg_payment_boleto), 2) AS avg_paydiff,
+       ROUND((max_payment_credit - max_payment_boleto), 2) AS max_paydiff,
+       ROUND((min_payment_credit - min_payment_boleto), 2) AS min_paydiff
+  FROM TEMP1 NATURAL JOIN TEMP2
+  WHERE customer_state = '${state}'
+  ORDER BY total_paydiff DESC`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
+}
+
+
 
 // Route 8 (handler)
-async function search_players(req, res) {
-    // TODO: TASK 9: implement and test, potentially writing your own (ungraded) tests
-    // IMPORTANT: in your SQL LIKE matching, use the %query% format to match the search query to substrings, not just the entire string
-    const name = req.query.Name ? req.query.Name : ""
-    const nationality = req.query.Nationality ? req.query.Nationality : ""
-    const club = req.query.Club ? req.query.Club : ""
-    const ratingLow = req.query.RatingLow ? req.query.RatingLow : 0
-    const ratingHigh = req.query.RatingHigh ? req.query.RatingHigh : 100
-    const potentialLow = req.query.PotentialLow ? req.query.PotentialLow : 0
-    const potentialHigh = req.query.PotentialHigh ? req.query.PotentialHigh : 100
-    if (req.query.page && !isNaN(req.query.page)) {
-        const page = req.query.page
-        const pagesize = req.query.pagesize ? req.query.pagesize : 10
-        connection.query(`SELECT PlayerId, Name, Nationality, OverallRating AS Rating, Potential, Club, Value
-        FROM Players
-        WHERE Name LIKE '%${name}%' AND Nationality LIKE '%${nationality}%'
-            AND Club LIKE '%${club}%' AND OverallRating BETWEEN ${ratingLow} AND ${ratingHigh}
-            AND Potential BETWEEN ${potentialLow} AND ${potentialHigh}
-        ORDER BY Name
-            OFFSET ${(page - 1) * pagesize}
-            FETCH NEXT ${pagesize} ROWS ONLY`, function (error, results, fields) {
-            if (error) {
-                console.log(error)
-                res.json({ error: error })
-            } else if (results) {
-                res.json({ results: results })
-            }
-        });
-    } else {
-        connection.query(`SELECT PlayerId, Name, Nationality, OverallRating AS Rating, Potential, Club, Value
-        FROM Players
-        WHERE Name LIKE '%${name}%' AND Nationality LIKE '%${nationality}%'
-            AND Club LIKE '%${club}%' AND OverallRating BETWEEN ${ratingLow} AND ${ratingHigh}
-            AND Potential BETWEEN ${potentialLow} AND ${potentialHigh}
-        ORDER BY Name`, function (error, results, fields) {
-            if (error) {
-                console.log(error)
-                res.json({ error: error })
-            } else if (results) {
-                res.json({ results: results })
-            }
-        });
-    }
-}
+
 
 module.exports = {
     hello,
-    jersey,
-    all_matches,
-    all_players,
-    match,
-    player,
-    search_matches,
-    search_players
+    yearly_order,
+    yearly_sales,
+    yearly_review,
+    yearly_state,
+    search,
+    all_market,
+    market,
+    all_review,
+    review,
+    all_habit,
+    habit
 }
