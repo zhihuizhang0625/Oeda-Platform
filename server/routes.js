@@ -34,6 +34,7 @@ async function hello(req, res) {
 
 // Route 2 (handler)
 async function yearly_order(req, res) {
+    var year = req.query.year ? req.query.year : '2018';
     connection.query(`WITH TEMP1 AS (SELECT COUNT(order_id) AS order_2016
     FROM OrderInfo
     WHERE order_purchase_year = 2016),
@@ -43,81 +44,236 @@ TEMP2 AS (SELECT COUNT(order_id) AS order_2017
 TEMP3 AS (SELECT COUNT(order_id) AS order_2018
     FROM OrderInfo
     WHERE order_purchase_year = 2018)
-SELECT order_2016, order_2017, order_2018,
-(order_2017 - order_2016) AS difference_2016_2017,
-(order_2018 - order_2017) AS difference_2017_2018
+SELECT
+    order_2016, null AS difference_2015_2016,
+    order_2017, concat(round(((order_2017 - order_2016)/order_2016)*100,2),'%') AS difference_2016_2017,
+    order_2018,concat(round(((order_2018 - order_2017)/order_2017)*100, 2),'%') AS difference_2017_2018
 FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3`, function (error, results, fields) {
 
         if (error) {
             console.log(error)
             res.json({ error: error })
-        } else if (results) {
+        } else {
+            console.log(results);
+            const firstfields = [
+                'order_2016',
+                'difference_2015_2016'
+            ];
+            const secondfields = [
+                'order_2017',
+                'difference_2016_2017'
+            ];
+            const thirdfields = [
+                'order_2018',
+                'difference_2017_2018'
+            ];
+            if (year == 2016) {
+                secondfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+                thirdfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            } else if (year == 2017) {
+                firstfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+                thirdfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            } else{
+                firstfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+                secondfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            }
+           
             res.json({ results: results })
         } 
     });
 }
+//     var year = req.query.year ? req.query.year : '2018';
+//     connection.query(`WITH TEMP1 AS (SELECT COUNT(order_id) AS order_2016
+//     FROM OrderInfo
+//     WHERE order_purchase_year = 2016),
+// TEMP2 AS (SELECT COUNT(order_id) AS order_2017
+//     FROM OrderInfo
+//     WHERE order_purchase_year = 2017),
+// TEMP3 AS (SELECT COUNT(order_id) AS order_2018
+//     FROM OrderInfo
+//     WHERE order_purchase_year = 2018)
+// SELECT order_2016, order_2017, order_2018,
+// (order_2017 - order_2016) AS difference_2016_2017,
+// (order_2018 - order_2017) AS difference_2017_2018
+// FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3
+// WHERE `, function (error, results, fields) {
+
+//         if (error) {
+//             console.log(error)
+//             res.json({ error: error })
+//         } else if (results) {
+//             res.json({ results: results })
+//         } 
+//     });
+// }
 async function yearly_sales(req, res) {
-    connection.query(`WITH TEMP1 AS (SELECT SUM(Payment_value) AS sales_2016
+    var year = req.query.year ? req.query.year : '2018';
+    connection.query(`WITH TEMP1 AS (SELECT round(SUM(Payment_value),2) AS sales_2016
     FROM Payment NATURAL JOIN OrderInfo
     WHERE order_purchase_year = 2016),
-TEMP2 AS (SELECT SUM(Payment_value) AS sales_2017
+TEMP2 AS (SELECT round(SUM(Payment_value),2) AS sales_2017
     FROM Payment NATURAL JOIN OrderInfo
     WHERE order_purchase_year = 2017),
-TEMP3 AS (SELECT SUM(Payment_value) AS sales_2018
+TEMP3 AS (SELECT round(SUM(Payment_value),2) AS sales_2018
     FROM Payment NATURAL JOIN OrderInfo
     WHERE order_purchase_year = 2018)
-SELECT sales_2016, sales_2017, sales_2018,
-(sales_2017 - sales_2016) AS difference_2016_2017,
-(sales_2018 - sales_2017) AS difference_2017_2018
+SELECT sales_2016, null AS difference_2015_2016, sales_2017,
+       concat(round(((sales_2017 - sales_2016)/sales_2016)*100,2),'%') AS difference_2016_2017, sales_2018,
+concat(round((sales_2018 - sales_2017)/sales_2017*100,2),'%')AS difference_2017_2018
 FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3`, function (error, results, fields) {
 
         if (error) {
             console.log(error)
             res.json({ error: error })
-        } else if (results) {
+        } else {
+            console.log(results);
+            const firstfields = [
+                'sales_2016',
+                'difference_2015_2016'
+            ];
+            const secondfields = [
+                'sales_2017',
+                'difference_2016_2017'
+            ];
+            const thirdfields = [
+                'sales_2018',
+                'difference_2017_2018'
+            ];
+            if (year == 2016) {
+                secondfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+                thirdfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            } else if (year == 2017) {
+                firstfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+                thirdfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            } else{
+                firstfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+                secondfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            }
+           
             res.json({ results: results })
         } 
     });
 }
 async function yearly_review(req, res) {
-    connection.query(`WITH TEMP1 AS (SELECT AVG(review_score) AS review_2017
+    var year = req.query.year ? req.query.year : '2018';
+    connection.query(`WITH TEMP1 AS (SELECT round(AVG(review_score),2) AS review_2017
     FROM Review NATURAL JOIN OrderInfo
     WHERE order_purchase_year = 2017),
-TEMP2 AS (SELECT AVG(review_score) AS review_2018
+TEMP2 AS (SELECT round(AVG(review_score),2) AS review_2018
     FROM Review NATURAL JOIN OrderInfo
     WHERE order_purchase_year = 2018)
-SELECT review_2017, review_2018,
-(review_2018 - review_2017) AS difference_2017_2018
+SELECT review_2017, null AS difference_2016_2017, review_2018,
+concat(round(((review_2018 - review_2017)/review_2017)*100,2),'%') AS difference_2017_2018
 FROM TEMP1 NATURAL JOIN TEMP2;`, function (error, results, fields) {
 
         if (error) {
             console.log(error)
             res.json({ error: error })
-        } else if (results) {
+        } else {
+            console.log(results);
+            const secondfields = [
+                'review_2017',
+                'difference_2016_2017'
+            ];
+            const thirdfields = [
+                'review_2018',
+                'difference_2017_2018'
+            ];
+            if (year == 2017) {
+                thirdfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            } else{
+                secondfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            }
+           
             res.json({ results: results })
         } 
     });
 }
 
 async function yearly_state(req, res) {
-    connection.query(`WITH TEMP1 AS (SELECT COUNT(DISTINCT customer_state) AS state_2016 
-    FROM Customer NATURAL JOIN OrderInfo 
+    var year = req.query.year ? req.query.year : '2018';
+    connection.query(`WITH TEMP1 AS (SELECT COUNT(DISTINCT customer_state) AS state_2016
+    FROM Customer NATURAL JOIN OrderInfo
     WHERE order_purchase_year = 2016),
-TEMP2 AS (SELECT COUNT(DISTINCT customer_state) AS state_2017 
-    FROM Customer NATURAL JOIN OrderInfo 
+TEMP2 AS (SELECT COUNT(DISTINCT customer_state) AS state_2017
+    FROM Customer NATURAL JOIN OrderInfo
     WHERE order_purchase_year = 2017),
-TEMP3 AS (SELECT COUNT(DISTINCT customer_state) AS state_2018 
-    FROM Customer NATURAL JOIN OrderInfo 
+TEMP3 AS (SELECT COUNT(DISTINCT customer_state) AS state_2018
+    FROM Customer NATURAL JOIN OrderInfo
     WHERE order_purchase_year = 2018)
-SELECT state_2016, state_2017, state_2018,
-(state_2017 - state_2016) AS difference_2016_2017,
-(state_2018 - state_2017) AS difference_2017_2018
+SELECT state_2016, null AS difference_2015_2016,
+       state_2017, concat(round(((state_2017 - state_2016)/state_2016)*100,2),'%') AS difference_2016_2017,
+       state_2018, concat(round(((state_2018 - state_2017)/state_2017)*100,2),'%') AS difference_2017_2018
 FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3;`, function (error, results, fields) {
 
         if (error) {
             console.log(error)
             res.json({ error: error })
-        } else if (results) {
+        } else {
+            console.log(results);
+            const firstfields = [
+                'state_2016',
+                'difference_2015_2016'
+            ];
+            const secondfields = [
+                'state_2017',
+                'difference_2016_2017'
+            ];
+            const thirdfields = [
+                'state_2018',
+                'difference_2017_2018'
+            ];
+            if (year == 2016) {
+                secondfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+                thirdfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            } else if (year == 2017) {
+                firstfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+                thirdfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            } else{
+                firstfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+                secondfields.forEach(attribute => {
+                    delete results[0][attribute];
+                });
+            }
+           
             res.json({ results: results })
         } 
     });
@@ -166,6 +322,7 @@ async function search(req, res) {
 // ********************************************
 
 async function all_market(req, res) {
+    var year = req.query.year ? req.query.year : 2018;
     connection.query(`WITH top_cities
     AS (SELECT city, walmart
         FROM City
@@ -208,7 +365,7 @@ FROM top_cities tc
 NATURAL JOIN total_orders tto
 NATURAL JOIN total_sales ts
 JOIN top_product tp ON tc.city = tp.city
-WHERE tto.year = tp.year AND tp.sales >= ALL (SELECT sales
+WHERE tto.year = tp.year AND tto.year = ${year} AND tp.sales >= ALL (SELECT sales
                                            FROM top_product tp
                                            WHERE tp.city = tc.city
                                            AND tp.year = tto.year)
@@ -226,6 +383,7 @@ ORDER BY tc.walmart DESC, tto.year`, function (error, results, fields) {
 // Route 5 (handler)
 async function market(req, res) {
     var city = req.query.city ? req.query.city : 'salvador';
+    var year = req.query.year ? req.query.year : 2018;
     connection.query(`WITH top_cities
     AS (SELECT city, walmart
         FROM City
@@ -268,7 +426,7 @@ FROM top_cities tc
 NATURAL JOIN total_orders tto
 NATURAL JOIN total_sales ts
 JOIN top_product tp ON tc.city = tp.city
-WHERE tto.year = tp.year AND tc.City = '${city}' AND tp.sales >= ALL (SELECT sales
+WHERE tto.year = tp.year AND tto.year = ${year} AND tc.City = '${city}' AND tp.sales >= ALL (SELECT sales
                                            FROM top_product tp
                                            WHERE tp.city = tc.city
                                            AND tp.year = tto.year)
