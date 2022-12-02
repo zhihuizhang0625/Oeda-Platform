@@ -55,8 +55,9 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
+            // TODO: replace it with accurate data
             title="12,361"
-            subtitle="Emails Sent"
+            subtitle="Total Number of Order in 2018"
             progress="0.75"
             increase="+14%"
             icon={
@@ -75,7 +76,7 @@ const Dashboard = () => {
         >
           <StatBox
             title="431,225"
-            subtitle="Sales Obtained"
+            subtitle="Total Payment in 2018"
             progress="0.50"
             increase="+21%"
             icon={
@@ -94,7 +95,7 @@ const Dashboard = () => {
         >
           <StatBox
             title="32,441"
-            subtitle="New Clients"
+            subtitle="Total Number of Customer in 2018"
             progress="0.30"
             increase="+5%"
             icon={
@@ -113,7 +114,7 @@ const Dashboard = () => {
         >
           <StatBox
             title="1,325,134"
-            subtitle="Traffic Received"
+            subtitle="Total Number of States"
             progress="0.80"
             increase="+43%"
             icon={
