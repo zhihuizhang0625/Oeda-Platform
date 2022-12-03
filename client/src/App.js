@@ -14,6 +14,12 @@ import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import { withAuthenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import Auth from "aws-amplify";
+import aws_exports from "./aws-exports";
+Auth.configure(aws_exports);
+
 // import Calendar from "./scenes/calendar/calendar";
 
 function App() {
@@ -48,4 +54,4 @@ function App() {
   );
 }
 
-export default App;
+export default withAuthenticator(App);
