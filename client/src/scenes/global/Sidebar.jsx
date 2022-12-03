@@ -6,16 +6,11 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-// import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -80,7 +75,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h3" color={colors.grey[100]}>
-                  ADMINIS
+                  Welcome!
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -88,35 +83,6 @@ const Sidebar = () => {
               </Box>
             )}
           </MenuItem>
-
-          {!isCollapsed && (
-            <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  // TODO: replace it with user's image
-                  src={`../../assets/user.png`}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
-                />
-              </Box>
-              <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color={colors.grey[100]}
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  {/* TODO: Replace it with user's name*/}
-                  Huifang Ye
-                </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
-                </Typography>
-              </Box>
-            </Box>
-          )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
@@ -136,7 +102,7 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Search"
-              to="/team"
+              to="/table"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -165,7 +131,7 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Market Analysis"
-              to="/form"
+              to="/table"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -187,21 +153,21 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Geographic districution"
-              to="/bar"
+              to="/geography"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Top 10 Products"
-              to="/pie"
+              to="/table"
               icon={<PieChartOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Order Number Per Year"
-              to="/line"
+              to="/table"
               icon={<TimelineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

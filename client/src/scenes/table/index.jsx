@@ -1,50 +1,69 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataInvoices } from "../../data/mockData";
+import { mockDataWalmart } from "../../data/mockData";
 import Header from "../../components/Header";
 
-const Invoices = () => {
+const Table = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
     { field: "id", headerName: "ID" },
     {
-      field: "name",
-      headerName: "Name",
+      field: "customerID",
+      headerName: "customerID",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "phone",
-      headerName: "Phone Number",
+      field: "orderID",
+      headerName: "orderID",
       flex: 1,
     },
     {
-      field: "email",
-      headerName: "Email",
+      field: "category",
+      headerName: "Category",
       flex: 1,
     },
     {
-      field: "cost",
-      headerName: "Cost",
+      field: "price",
+      headerName: "Price",
       flex: 1,
       renderCell: (params) => (
         <Typography color={colors.greenAccent[500]}>
-          ${params.row.cost}
+          ${params.row.price}
         </Typography>
       ),
     },
     {
-      field: "date",
-      headerName: "Date",
+      field: "year",
+      headerName: "Year",
+      flex: 1,
+    },
+    {
+      field: "month",
+      headerName: "Year",
+      flex: 1,
+    },
+    {
+      field: "reviewScore",
+      headerName: "reviewScore",
+      flex: 1,
+    },
+    {
+      field: "customerCity",
+      headerName: "customerCity",
       flex: 1,
     },
   ];
 
   return (
     <Box m="20px">
-      <Header title="INVOICES" subtitle="List of Invoice Balances" />
+      <Header
+        // title="Sales Report for the top 5 Cities With the most Walmart Stores"
+        title="Table"
+        subtitle=""
+      />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -72,12 +91,20 @@ const Invoices = () => {
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: `${colors.grey[100]} !important`,
+          },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
+        <DataGrid
+          checkboxSelection
+          rows={mockDataWalmart}
+          columns={columns}
+          components={{ Toolbar: GridToolbar }}
+        />
       </Box>
     </Box>
   );
 };
 
-export default Invoices;
+export default Table;
