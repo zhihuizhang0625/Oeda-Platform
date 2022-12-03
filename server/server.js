@@ -47,6 +47,8 @@ app.get('/allhabit', routes.all_habit)
 // Route 12 - register as GET 
 app.get('/habit', routes.habit)
 
+// Route 13 - register as GET 
+app.get('/transaction', routes.transaction)
 
 
 app.listen(config.server_port, () => {
