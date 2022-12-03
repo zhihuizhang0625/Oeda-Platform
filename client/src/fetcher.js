@@ -40,4 +40,20 @@ const getTotalStates = async () => {
   return res.json();
 };
 
-export { getTotalOrder, getTotalSales, getAvgScore, getTotalStates };
+const getTransaction = async () => {
+  var res = await fetch(
+    `http://${config.server_host}:${config.server_port}/transaction`,
+    {
+      method: "GET",
+    }
+  );
+  return res.json();
+};
+
+export {
+  getTotalOrder,
+  getTotalSales,
+  getAvgScore,
+  getTotalStates,
+  getTransaction,
+};

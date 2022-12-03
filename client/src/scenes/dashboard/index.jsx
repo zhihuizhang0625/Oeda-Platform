@@ -18,6 +18,7 @@ import {
   getTotalSales,
   getAvgScore,
   getTotalStates,
+  getTransaction,
 } from "../../fetcher";
 
 const Dashboard = () => {
@@ -27,6 +28,14 @@ const Dashboard = () => {
   const [totalSales, setTotalSales] = useState(0);
   const [avgScore, setAvgScore] = useState(0);
   const [totalStates, setTotalStates] = useState(0);
+  const [recentTrans, setRecentTrans] = useState([
+    {
+      order_id: "0",
+      Payment_value: "0",
+      customer_id: "0",
+      order_purchase_timestamp: "0",
+    },
+  ]);
   const [totalOrderChangeRate, setTotalOrderChangeRate] = useState(0);
   const [totalSalesChangeRate, setTotalSalesChangeRate] = useState(0);
   const [totalScoreChangeRate, setTotalScoreChangeRate] = useState(0);
@@ -48,6 +57,9 @@ const Dashboard = () => {
     getTotalStates().then((res) => {
       setTotalStates(res.results[0]["state_2018"]);
       setTotalStateChangeRate(res.results[0]["difference_2017_2018"]);
+    });
+    getTransaction().then((res) => {
+      setRecentTrans(res.results);
     });
   });
 
@@ -199,9 +211,9 @@ const Dashboard = () => {
               Recent Transactions
             </Typography>
           </Box>
-          {mockTransactions.map((transaction, i) => (
+          {recentTrans.map((transaction, i) => (
             <Box
-              key={`${transaction.txId}-${i}`}
+              key={`${transaction.order}-${i}}`}
               display="flex"
               justifyContent="space-between"
               alignItems="center"
@@ -214,19 +226,21 @@ const Dashboard = () => {
                   variant="h5"
                   fontWeight="600"
                 >
-                  {transaction.txId}
+                  {transaction.order_id}
                 </Typography>
                 <Typography color={colors.grey[100]}>
-                  {transaction.user}
+                  {transaction.customer_id}
                 </Typography>
               </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
+              <Box color={colors.grey[100]}>
+                {transaction.order_purchase_timestamp.substring(0, 10)}
+              </Box>
               <Box
                 backgroundColor={colors.greenAccent[500]}
                 p="5px 10px"
                 borderRadius="4px"
               >
-                ${transaction.cost}
+                ${transaction.Payment_value}
               </Box>
             </Box>
           ))}
@@ -288,9 +302,9 @@ const Dashboard = () => {
           >
             Brazil Map
           </Typography>
-          <Box height="200px">
+          {/* <Box height="200px">
             <GeographyChart />
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </Box>
