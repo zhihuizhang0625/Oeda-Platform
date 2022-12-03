@@ -1,42 +1,64 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import PublicIcon from "@mui/icons-material/Public";
+import RateReviewIcon from "@mui/icons-material/RateReview";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
+import { useEffect, useState } from "react";
+import {
+  getTotalOrder,
+  getTotalSales,
+  getAvgScore,
+  getTotalStates,
+} from "../../fetcher";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [totalOrder, setTotalOrder] = useState(0);
+  const [totalSales, setTotalSales] = useState(0);
+  const [avgScore, setAvgScore] = useState(0);
+  const [totalStates, setTotalStates] = useState(0);
+  const [totalOrderChangeRate, setTotalOrderChangeRate] = useState(0);
+  const [totalSalesChangeRate, setTotalSalesChangeRate] = useState(0);
+  const [totalScoreChangeRate, setTotalScoreChangeRate] = useState(0);
+  const [totalStateChangeRate, setTotalStateChangeRate] = useState(0);
+
+  useEffect(() => {
+    getTotalOrder().then((res) => {
+      setTotalOrder(res.results[0]["order_2018"]);
+      setTotalOrderChangeRate(res.results[0]["difference_2017_2018"]);
+    });
+    getTotalSales().then((res) => {
+      setTotalSales(res.results[0]["sales_2018"]);
+      setTotalSalesChangeRate(res.results[0]["difference_2017_2018"]);
+    });
+    getAvgScore().then((res) => {
+      setAvgScore(res.results[0]["review_2018"]);
+      setTotalScoreChangeRate(res.results[0]["difference_2017_2018"]);
+    });
+    getTotalStates().then((res) => {
+      setTotalStates(res.results[0]["state_2018"]);
+      setTotalStateChangeRate(res.results[0]["difference_2017_2018"]);
+    });
+  });
 
   return (
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="Oeda Platform" subtitle="Welcome to your dashboard" />
-
-        <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box>
+        <Header
+          title="Oeda Platform"
+          subtitle="An User Interactive Ecommerce Platform"
+        />
       </Box>
 
       {/* GRID & CHARTS */}
@@ -55,12 +77,13 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="12,361"
-            subtitle="Emails Sent"
-            progress="0.75"
-            increase="+14%"
+            // TODO: replace it with accurate data
+            title={totalOrder.toLocaleString()}
+            subtitle="Total Number of Order in 2018"
+            progress={parseFloat(totalSalesChangeRate) / 100}
+            increase={"+" + totalOrderChangeRate}
             icon={
-              <EmailIcon
+              <AddShoppingCartIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -74,12 +97,12 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="431,225"
-            subtitle="Sales Obtained"
-            progress="0.50"
-            increase="+21%"
+            title={totalSales.toLocaleString()}
+            subtitle="Total Sales in 2018"
+            progress={parseFloat(totalSalesChangeRate) / 100}
+            increase={"+" + totalSalesChangeRate}
             icon={
-              <PointOfSaleIcon
+              <AttachMoneyIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -93,12 +116,12 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="32,441"
-            subtitle="New Clients"
-            progress="0.30"
-            increase="+5%"
+            title={avgScore.toLocaleString()}
+            subtitle="Average Review in 2018"
+            progress={parseFloat(totalScoreChangeRate) / 100}
+            increase={"+" + totalScoreChangeRate}
             icon={
-              <PersonAddIcon
+              <RateReviewIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -112,12 +135,12 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="1,325,134"
-            subtitle="Traffic Received"
-            progress="0.80"
-            increase="+43%"
+            title={totalStates.toLocaleString()}
+            subtitle="States Involved in Brazil"
+            progress={parseFloat(totalStateChangeRate) / 100}
+            increase={totalStateChangeRate}
             icon={
-              <TrafficIcon
+              <PublicIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -150,20 +173,13 @@ const Dashboard = () => {
                 fontWeight="bold"
                 color={colors.greenAccent[500]}
               >
-                $59,342.32
+                $3,785,320.43
               </Typography>
             </Box>
-            <Box>
-              <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                />
-              </IconButton>
-            </Box>
           </Box>
-          <Box height="250px" m="-20px 0 0 0">
+          {/* <Box height="250px" m="-20px 0 0 0">
             <LineChart isDashboard={true} />
-          </Box>
+          </Box> */}
         </Box>
         <Box
           gridColumn="span 4"
@@ -217,7 +233,7 @@ const Dashboard = () => {
         </Box>
 
         {/* ROW 3 */}
-        <Box
+        {/* <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -242,7 +258,7 @@ const Dashboard = () => {
             </Typography>
             <Typography>Includes extra misc expenditures and costs</Typography>
           </Box>
-        </Box>
+        </Box> */}
         <Box
           gridColumn="span 4"
           gridRow="span 2"
@@ -253,11 +269,11 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
-            Sales Quantity
+            Sales
           </Typography>
-          <Box height="250px" mt="-20px">
+          {/* <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
-          </Box>
+          </Box> */}
         </Box>
         <Box
           gridColumn="span 4"
@@ -270,10 +286,10 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ marginBottom: "15px" }}
           >
-            Geography Based Traffic
+            Brazil Map
           </Typography>
           <Box height="200px">
-            <GeographyChart isDashboard={true} />
+            <GeographyChart />
           </Box>
         </Box>
       </Box>
