@@ -615,7 +615,7 @@ if (req.query.page && !isNaN(req.query.page)) {
 }}
 
 async function habit(req, res) {
-    var state = req.params.category ? req.params.category : 'SP';
+    var state = req.query.state ? req.query.state : 'SP';
     connection.query(`WITH TEMP1
     AS (SELECT customer_state, SUM(payment_value) AS total_payment_credit,
                AVG(payment_value) AS avg_payment_credit,
@@ -659,6 +659,20 @@ async function habit(req, res) {
     });
 }
 
+async function transaction(req, res) {
+    connection.query(`SELECT order_id, customer_id, order_purchase_timestamp, Payment_value
+    FROM Payment NATURAL JOIN OrderInfo
+    ORDER BY order_purchase_timestamp DESC
+    LIMIT 10;`, function (error, results, fields) {
+
+        if (error) {
+            console.log(error)
+            res.json({ error: error })
+        } else if (results) {
+            res.json({ results: results })
+        } 
+    });
+}
 
 
 // Route 8 (handler)
@@ -676,5 +690,6 @@ module.exports = {
     all_review,
     review,
     all_habit,
-    habit
+    habit,
+    transaction
 }
