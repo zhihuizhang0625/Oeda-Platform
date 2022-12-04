@@ -140,6 +140,9 @@ const Search = () => {
             display: "inline-block",
           }}
           onChange={onCategoryChange}
+          onKeyPress={(e) => {
+            e.key === "Enter" && updateSearchResults();
+          }}
         />
         <Typography
           variant="h5"
@@ -156,6 +159,9 @@ const Search = () => {
             display: "inline-block",
           }}
           onChange={onMinPriceChange}
+          onKeyPress={(e) => {
+            e.key === "Enter" && updateSearchResults();
+          }}
         />
         <Typography
           variant="h5"
@@ -172,6 +178,9 @@ const Search = () => {
             display: "inline-block",
           }}
           onChange={onMaxPriceChange}
+          onKeyPress={(e) => {
+            e.key === "Enter" && updateSearchResults();
+          }}
         />
         <Typography
           variant="h5"
@@ -187,6 +196,9 @@ const Search = () => {
             borderRadius: "4px",
           }}
           onChange={onYearChange}
+          onKeyPress={(e) => {
+            e.key === "Enter" && updateSearchResults();
+          }}
         />
         <Typography
           variant="h5"
@@ -202,6 +214,9 @@ const Search = () => {
             borderRadius: "4px",
           }}
           onChange={onMonthChange}
+          onKeyPress={(e) => {
+            e.key === "Enter" && updateSearchResults();
+          }}
         />
         {/* <Typography
           variant="h5"
