@@ -160,7 +160,7 @@ const Dashboard = () => {
         </Box>
 
         {/* ROW 2 */}
-        <Box
+        {/* <Box
           gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -189,12 +189,12 @@ const Dashboard = () => {
               </Typography>
             </Box>
           </Box>
-          {/* <Box height="250px" m="-20px 0 0 0">
+          <Box height="250px" m="-20px 0 0 0">
             <LineChart isDashboard={true} />
-          </Box> */}
-        </Box>
+          </Box>
+        </Box> */}
         <Box
-          gridColumn="span 4"
+          gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"
@@ -273,7 +273,7 @@ const Dashboard = () => {
             <Typography>Includes extra misc expenditures and costs</Typography>
           </Box>
         </Box> */}
-        <Box
+        {/* <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -285,9 +285,9 @@ const Dashboard = () => {
           >
             Sales
           </Typography>
-          {/* <Box height="250px" mt="-20px">
+          <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
-          </Box> */}
+          </Box>
         </Box>
         <Box
           gridColumn="span 4"
@@ -302,10 +302,10 @@ const Dashboard = () => {
           >
             Brazil Map
           </Typography>
-          {/* <Box height="200px">
+          <Box height="200px">
             <GeographyChart />
-          </Box> */}
-        </Box>
+          </Box>
+        </Box> */}
       </Box>
     </Box>
   );

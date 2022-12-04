@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import SavedSearchIcon from "@mui/icons-material/SavedSearch";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -102,8 +103,8 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Search"
-              to="/table"
-              icon={<PeopleOutlinedIcon />}
+              to="/search"
+              icon={<SavedSearchIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -131,8 +132,8 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Market Analysis"
-              to="/table"
-              icon={<PersonOutlinedIcon />}
+              to="/market"
+              icon={<StorefrontIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -154,20 +155,20 @@ const Sidebar = () => {
             <Item
               title="Geographic districution"
               to="/geography"
-              icon={<BarChartOutlinedIcon />}
+              icon={<TravelExploreIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Top 10 Products"
-              to="/table"
-              icon={<PieChartOutlineOutlinedIcon />}
+              to="/search"
+              icon={<LocalGroceryStoreIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Order Number Per Year"
-              to="/table"
+              to="/search"
               icon={<TimelineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

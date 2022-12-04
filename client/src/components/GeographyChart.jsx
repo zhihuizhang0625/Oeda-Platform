@@ -6,7 +6,7 @@ function GeographyChart() {
   return (
     <div
       style={{
-        display: "block",
+        display: "inline",
         objectFit: "contain",
       }}
     >
@@ -17,7 +17,7 @@ function GeographyChart() {
         colorStroke="red"
         colorLabel="red"
       />
-      {/* <p>The selected district was {district}</p> */}
+      <p>The selected district was {district}</p>
     </div>
   );
 }
