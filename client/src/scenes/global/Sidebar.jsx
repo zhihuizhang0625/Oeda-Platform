@@ -12,6 +12,7 @@ import SavedSearchIcon from "@mui/icons-material/SavedSearch";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -105,6 +106,13 @@ const Sidebar = () => {
               title="Transaction Info"
               to="/search"
               icon={<SavedSearchIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Market Info"
+              to="/searchCity"
+              icon={<ContentPasteSearchIcon />}
               selected={selected}
               setSelected={setSelected}
             />

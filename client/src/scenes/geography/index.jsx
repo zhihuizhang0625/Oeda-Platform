@@ -76,7 +76,10 @@ const Geography = () => {
 
   return (
     <Box m="20px">
-      <Header title="Geographic Distribution" />
+      <Header
+        title="Geographic Distribution"
+        subtitle="Payment habits including the differences in total, average, max, and min payment values by credit card users and boleto (bank tickets) users from each state"
+      />
 
       <Box height="35%">
         <MapBrazil

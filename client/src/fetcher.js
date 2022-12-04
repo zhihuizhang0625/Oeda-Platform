@@ -88,6 +88,16 @@ const getHabitByState = async (state) => {
   return res.json();
 };
 
+const getMarketInfoByCity = async (city, year) => {
+  var res = await fetch(
+    `http://${config.server_host}:${config.server_port}/market?city=${city}&year=${year}`,
+    {
+      method: "GET",
+    }
+  );
+  return res.json();
+};
+
 export {
   getTotalOrder,
   getTotalSales,
@@ -97,4 +107,5 @@ export {
   getSearchResult,
   getMarketReport,
   getHabitByState,
+  getMarketInfoByCity,
 };

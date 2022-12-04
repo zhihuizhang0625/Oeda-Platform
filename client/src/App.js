@@ -15,6 +15,7 @@ import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import SearchCity from "./scenes/searchCity";
 // import { withAuthenticator } from "@aws-amplify/ui-react";
 // import "@aws-amplify/ui-react/styles.css";
 // import { Auth } from "aws-amplify";
@@ -40,6 +41,7 @@ function App() {
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/search" element={<Search />} />
+              <Route path="/searchCity" element={<SearchCity />} />
               <Route path="/market" element={<Market />} />
               <Route path="/form" element={<Form />} />
               <Route path="/bar" element={<Bar />} />

@@ -10,7 +10,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useState, useEffect } from "react";
 import { getSearchResult } from "../../fetcher";
 
-const Search = () => {
+const SearchCity = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
@@ -306,4 +306,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchCity;
