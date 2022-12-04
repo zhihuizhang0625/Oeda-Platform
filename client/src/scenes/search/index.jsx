@@ -100,7 +100,7 @@ const Search = () => {
     <Box m="20px">
       <Header
         // title="Sales Report for the top 5 Cities With the most Walmart Stores"
-        title="Search"
+        title="Transaction Info"
       />
 
       {/* <FormControl

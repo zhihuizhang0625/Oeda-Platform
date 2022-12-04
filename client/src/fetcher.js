@@ -78,6 +78,16 @@ const getMarketReport = async (year) => {
   return res.json();
 };
 
+const getHabitByState = async (state) => {
+  var res = await fetch(
+    `http://${config.server_host}:${config.server_port}/habit?state=${state}`,
+    {
+      method: "GET",
+    }
+  );
+  return res.json();
+};
+
 export {
   getTotalOrder,
   getTotalSales,
@@ -86,4 +96,5 @@ export {
   getTransaction,
   getSearchResult,
   getMarketReport,
+  getHabitByState,
 };

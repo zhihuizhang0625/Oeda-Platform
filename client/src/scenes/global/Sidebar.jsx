@@ -102,7 +102,7 @@ const Sidebar = () => {
               Analytics
             </Typography>
             <Item
-              title="Search"
+              title="Transaction Info"
               to="/search"
               icon={<SavedSearchIcon />}
               selected={selected}

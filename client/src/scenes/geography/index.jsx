@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useState, useEffect } from "react";
-import { getSearchResult } from "../../fetcher";
+import { getHabitByState } from "../../fetcher";
 import { MapBrazil } from "react-brazil-map";
 
 const Geography = () => {
@@ -27,35 +27,29 @@ const Geography = () => {
   const [district, setDistrict] = useState("");
 
   const columns = [
-    { field: "id", headerName: "ID" },
     {
-      field: "order_id",
-      headerName: "orderID",
+      field: "customer_state",
+      headerName: "State",
       flex: 1,
     },
     {
-      field: "category",
-      headerName: "Category",
+      field: "total_paydiff",
+      headerName: "Total Payment Difference",
       flex: 1,
     },
     {
-      field: "price",
-      headerName: "Price",
-      flex: 1,
-      renderCell: (params) => (
-        <Typography color={colors.greenAccent[500]}>
-          ${params.row.price}
-        </Typography>
-      ),
-    },
-    {
-      field: "year",
-      headerName: "Year",
+      field: "avg_paydiff",
+      headerName: "Average Payment Difference",
       flex: 1,
     },
     {
-      field: "month",
-      headerName: "Month",
+      field: "max_paydiff",
+      headerName: "Max Payment Difference",
+      flex: 1,
+    },
+    {
+      field: "min_paydiff",
+      headerName: "Min Payment Difference",
       flex: 1,
     },
   ];
@@ -63,6 +57,14 @@ const Geography = () => {
   const handleClick = (event, district) => {
     console.log(event.target);
     console.log("district", district);
+  };
+
+  const updateSearchResults = () => {
+    getHabitByState(district).then((res) => {
+      console.log("searchResults2:", res.results);
+      console.log("district:", district);
+      setSearchResults(res.results);
+    });
   };
 
   // useEffect(() => {
@@ -76,21 +78,22 @@ const Geography = () => {
     <Box m="20px">
       <Header title="Geographic Distribution" />
 
-      <Box height="40%">
+      <Box height="35%">
         <MapBrazil
           onChange={setDistrict}
           bg={colors.grey[200]}
           fill="#e0e0e0"
           colorStroke={colors.primary[500]}
           colorLabel={colors.primary[500]}
-          width={300}
-          height={300}
+          width={350}
+          height={350}
         />
         <Button
           type="submit"
           color="secondary"
           variant="contained"
-          sx={{ ml: 15, mt: 2, flex: 1 }}
+          sx={{ ml: 20, mt: 2, flex: 1 }}
+          onClick={updateSearchResults}
         >
           Submit
         </Button>
@@ -110,7 +113,7 @@ const Geography = () => {
       </Box>
       <Box
         m="0px 0 0 0"
-        height="40vh"
+        height="30vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -145,7 +148,7 @@ const Geography = () => {
           rows={searchResults}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
-          getRowId={(row) => row.id}
+          getRowId={(row) => row.total_paydiff}
           pageSize={pageSize ?? 20}
           rowsPerPageOptions={[5, 10, 20]}
           pagination
