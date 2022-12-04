@@ -50,15 +50,7 @@ const getTransaction = async () => {
   return res.json();
 };
 
-const getSearchResult = async (
-  category,
-  low,
-  high,
-  year,
-  month,
-  page,
-  pagesize
-) => {
+const getSearchResult = async (category, low, high, year, month) => {
   var res = await fetch(
     `http://${config.server_host}:${config.server_port}/search?category=${category}&low=${low}&high=${high}&year=${year}&month=${month}`,
     {
@@ -98,6 +90,16 @@ const getMarketInfoByCity = async (city, year) => {
   return res.json();
 };
 
+const getTopRatedProduct = async () => {
+  var res = await fetch(
+    `http://${config.server_host}:${config.server_port}/allreview`,
+    {
+      method: "GET",
+    }
+  );
+  return res.json();
+};
+
 export {
   getTotalOrder,
   getTotalSales,
@@ -108,4 +110,5 @@ export {
   getMarketReport,
   getHabitByState,
   getMarketInfoByCity,
+  getTopRatedProduct,
 };

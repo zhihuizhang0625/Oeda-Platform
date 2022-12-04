@@ -13,6 +13,7 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -116,21 +117,6 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            {/* <Item
-              title="Contacts Information"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Invoices Balances"
-              to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -142,6 +128,13 @@ const Sidebar = () => {
               title="Market Analysis"
               to="/market"
               icon={<StorefrontIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Geographic districution"
+              to="/geography"
+              icon={<TravelExploreIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -160,13 +153,6 @@ const Sidebar = () => {
             >
               Visualization
             </Typography>
-            <Item
-              title="Geographic districution"
-              to="/geography"
-              icon={<TravelExploreIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
             <Item
               title="Top 10 Products"
               to="/search"
@@ -188,6 +174,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             /> */}
+            <Item
+              title="Top-Rated Products"
+              to="/bar"
+              icon={<ThumbUpAltIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
           </Box>
         </Menu>
       </ProSidebar>

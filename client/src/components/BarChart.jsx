@@ -2,14 +2,25 @@ import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
 import { mockBarData as data } from "../data/mockData";
+import { ResponsiveLine } from "@nivo/line";
+// import { mockLineData as data } from "../data/mockData";
+import { useEffect, useState } from "react";
+import { getTopRatedProduct } from "../fetcher";
 
 const BarChart = ({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [searchResults, setSearchResults] = useState([]);
+  useEffect(() => {
+    getTopRatedProduct().then((res) => {
+      setSearchResults(res.results);
+      console.log(res.results);
+    });
+  });
 
   return (
     <ResponsiveBar
-      data={data}
+      data={searchResults}
       theme={{
         // added
         axis: {
@@ -44,13 +55,16 @@ const BarChart = ({ isDashboard = false }) => {
           },
         },
       }}
-      keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
-      indexBy="country"
+      keys={["ReviewScore"]}
+      indexBy="productCategory"
+      // keys={["hot dog"]}
+      // indexBy="country"
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
       colors={{ scheme: "nivo" }}
+      colorBy="indexValue"
       defs={[
         {
           id: "dots",
@@ -81,7 +95,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "country", // changed
+        legend: isDashboard ? undefined : "productCategory", // changed
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -89,7 +103,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "food", // changed
+        legend: isDashboard ? undefined : "productCategory", // changed
         legendPosition: "middle",
         legendOffset: -40,
       }}

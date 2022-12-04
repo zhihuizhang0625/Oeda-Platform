@@ -160,8 +160,8 @@ const Dashboard = () => {
         </Box>
 
         {/* ROW 2 */}
-        {/* <Box
-          gridColumn="span 8"
+        <Box
+          gridColumn="span 5"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
         >
@@ -178,23 +178,23 @@ const Dashboard = () => {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Revenue Generated
+                Top 10 Products
               </Typography>
               <Typography
                 variant="h3"
                 fontWeight="bold"
                 color={colors.greenAccent[500]}
               >
-                $3,785,320.43
+                With Highest Review Score
               </Typography>
             </Box>
           </Box>
           <Box height="250px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
+            <BarChart isDashboard={true} />
           </Box>
-        </Box> */}
+        </Box>
         <Box
-          gridColumn="span 8"
+          gridColumn="span 7"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"
