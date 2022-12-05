@@ -654,6 +654,68 @@ async function transaction(req, res) {
     }
   );
 }
+async function top_order(req, res) {
+    var year = req.query.year ? req.query.year : "";
+    connection.query(
+      `SELECT product_category_name_english AS product_category,
+      COUNT(order_id) AS order_count
+ FROM Product NATURAL JOIN Item NATURAL JOIN Category NATURAL JOIN OrderInfo
+ WHERE order_purchase_year = ${year}
+ GROUP BY product_category_name
+ Order BY order_count DESC
+ LIMIT 10;`,
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.json({ error: error });
+        } else if (results) {
+          res.json({ results: results });
+        }
+      }
+    );
+  }
+
+  async function top_sales(req, res) {
+    var year = req.query.year ? req.query.year : "";
+    connection.query(
+      `SELECT product_category_name_english AS product_category,
+      round(SUM(price), 2) AS sales_sum
+ FROM Product NATURAL JOIN Item NATURAL JOIN Category NATURAL JOIN OrderInfo
+ WHERE order_purchase_year = ${year}
+ GROUP BY product_category_name
+ Order BY sales_sum DESC
+ LIMIT 10;`,
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.json({ error: error });
+        } else if (results) {
+          res.json({ results: results });
+        }
+      }
+    );
+  }
+
+  async function top_review(req, res) {
+    var year = req.query.year ? req.query.year : "";
+    connection.query(
+      `select product_category_name_english AS product_category, round(avg(review_score), 2) AS avg_review
+      from Review NATURAL JOIN Item NATURAL JOIN Product NATURAL JOIN Category NATURAL JOIN OrderInfo
+      WHERE order_purchase_year = ${year}
+      GROUP BY product_category_name_english
+      Order BY avg(review_score) DESC
+      LIMIT 10;`,
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.json({ error: error });
+        } else if (results) {
+          res.json({ results: results });
+        }
+      }
+    );
+  }
+  
 
 // Route 8 (handler)
 
@@ -671,4 +733,7 @@ module.exports = {
   all_habit,
   habit,
   transaction,
+  top_order,
+  top_sales,
+  top_review
 };
