@@ -73,6 +73,18 @@ app.get("/habit", routes.habit);
 // Returns 10 of the most recent transactions
 app.get("/transaction", routes.transaction);
 
+// Route 14 - register as GET
+// Returns 10 of the most recent transactions
+app.get("/topOrder", routes.top_order);
+
+// Route 15 - register as GET
+// Returns 10 of the most recent transactions
+app.get("/topSales", routes.top_sales);
+
+// Route 16 - register as GET
+// Returns 10 of the most recent transactions
+app.get("/topReview", routes.top_review);
+
 app.listen(config.server_port, () => {
   console.log(
     `Server running at http://${config.server_host}:${config.server_port}/`
