@@ -161,7 +161,7 @@ const Dashboard = () => {
 
         {/* ROW 2 */}
         <Box
-          gridColumn="span 5"
+          gridColumn="span 12"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
         >
@@ -185,7 +185,7 @@ const Dashboard = () => {
                 fontWeight="bold"
                 color={colors.greenAccent[500]}
               >
-                With Highest Review Score
+                Highest Review Score
               </Typography>
             </Box>
           </Box>
@@ -194,7 +194,7 @@ const Dashboard = () => {
           </Box>
         </Box>
         <Box
-          gridColumn="span 7"
+          gridColumn="span 12"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"

@@ -36,6 +36,11 @@ const Market = () => {
       field: "Sales",
       headerName: "Sales",
       flex: 1,
+      renderCell: (params) => (
+        <Typography color={colors.greenAccent[500]}>
+          ${params.row.Sales.toFixed(2)}
+        </Typography>
+      ),
     },
     {
       field: "Top Selling Product",
@@ -75,7 +80,6 @@ const Market = () => {
   const handleChange = (event: SelectChangeEvent) => {
     setYear(event.target.value);
     getMarketReport(event.target.value).then((res) => {
-      console.log("searchResults2:", res.results);
       setSearchResults(res.results);
     });
   };
@@ -111,7 +115,7 @@ const Market = () => {
   return (
     <Box m="20px">
       <Header
-        title="Sales Report"
+        title="Market Analysis"
         subtitle="Top 5 Cities With the most Walmart Stores"
       />
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
