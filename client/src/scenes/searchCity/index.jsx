@@ -30,7 +30,7 @@ const SearchCity = () => {
       flex: 1,
       renderCell: (params) => (
         <Typography color={colors.greenAccent[500]}>
-          ${params.row.price}
+          ${params.row.Sales.toFixed(2)}
         </Typography>
       ),
     },

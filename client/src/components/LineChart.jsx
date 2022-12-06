@@ -8,12 +8,7 @@ import { getTopRatedProduct } from "../fetcher";
 const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [searchResults, setSearchResults] = useState([
-    {
-      product_category: "home appliances",
-      avg_review_score: "4.33",
-    },
-  ]);
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     getTopRatedProduct().then((res) => {
