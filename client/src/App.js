@@ -7,6 +7,7 @@ import Market from "./scenes/market";
 import LineSales from "./scenes/sales";
 import LineOrders from "./scenes/orders";
 import Geography from "./scenes/geography";
+import Bar from "./scenes/bar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import SearchCity from "./scenes/searchCity";
@@ -30,6 +31,7 @@ function App() {
               <Route path="/sales" element={<LineSales />} />
               <Route path="/orders" element={<LineOrders />} />
               <Route path="/geography" element={<Geography />} />
+              <Route path="/bar" element={<Bar />} />
             </Routes>
           </main>
         </div>
