@@ -154,15 +154,15 @@ const Sidebar = () => {
               Visualization
             </Typography>
             <Item
-              title="Top 10 Products"
-              to="/search"
+              title="Best Selling Products"
+              to="/orders"
               icon={<LocalGroceryStoreIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Order Number Per Year"
-              to="/search"
+              title="Top Trending Products"
+              to="/sales"
               icon={<TimelineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -175,7 +175,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             /> */}
             <Item
-              title="Top-Rated Products"
+              title="Top Rated Products"
               to="/bar"
               icon={<ThumbUpAltIcon />}
               selected={selected}

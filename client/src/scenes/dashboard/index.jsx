@@ -7,7 +7,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import PublicIcon from "@mui/icons-material/Public";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
+import LineChartOrder from "../../components/LineChartOrder";
 import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
@@ -160,8 +160,41 @@ const Dashboard = () => {
         </Box>
 
         {/* ROW 2 */}
+        {/* <Box
+          gridColumn="span 6"
+          gridRow="span 2"
+          backgroundColor={colors.primary[400]}
+        >
+          <Box
+            mt="25px"
+            p="0 30px"
+            display="flex "
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box>
+              <Typography
+                variant="h5"
+                fontWeight="600"
+                color={colors.grey[100]}
+              >
+                Top 10 Products
+              </Typography>
+              <Typography
+                variant="h3"
+                fontWeight="bold"
+                color={colors.greenAccent[500]}
+              >
+                Most Orders in 2018
+              </Typography>
+            </Box>
+          </Box>
+          <Box height="250px" m="-20px 0 0 0">
+            <LineChartOrder isDashboard={true} />
+          </Box>
+        </Box> */}
         <Box
-          gridColumn="span 12"
+          gridColumn="span 6"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
         >
@@ -193,8 +226,10 @@ const Dashboard = () => {
             <BarChart isDashboard={true} />
           </Box>
         </Box>
+
+        {/* ROW 3 */}
         <Box
-          gridColumn="span 12"
+          gridColumn="span 6"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"

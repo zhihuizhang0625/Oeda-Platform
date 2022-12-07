@@ -92,9 +92,10 @@ const BarChart = ({ isDashboard = false }) => {
       axisTop={null}
       axisRight={null}
       axisBottom={{
+        enable: false,
         tickSize: 5,
         tickPadding: 5,
-        tickRotation: 0,
+        tickRotation: isDashboard ? -15 : 0,
         legend: isDashboard ? undefined : "productCategory", // changed
         legendPosition: "middle",
         legendOffset: 32,
@@ -107,7 +108,7 @@ const BarChart = ({ isDashboard = false }) => {
         legendPosition: "middle",
         legendOffset: -40,
       }}
-      enableLabel={false}
+      enableLabel={true}
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={{

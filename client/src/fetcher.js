@@ -100,6 +100,26 @@ const getTopRatedProduct = async () => {
   return res.json();
 };
 
+const getTopOrderProduct = async (year) => {
+  var res = await fetch(
+    `http://${config.server_host}:${config.server_port}/topOrder?year=${year}`,
+    {
+      method: "GET",
+    }
+  );
+  return res.json();
+};
+
+const getTopSalesProduct = async (year) => {
+  var res = await fetch(
+    `http://${config.server_host}:${config.server_port}/topSales?year=${year}`,
+    {
+      method: "GET",
+    }
+  );
+  return res.json();
+};
+
 export {
   getTotalOrder,
   getTotalSales,
@@ -111,4 +131,6 @@ export {
   getHabitByState,
   getMarketInfoByCity,
   getTopRatedProduct,
+  getTopOrderProduct,
+  getTopSalesProduct,
 };

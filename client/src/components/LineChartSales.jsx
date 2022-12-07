@@ -1,19 +1,32 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { mockLineData as data } from "../data/mockData";
 import { useEffect, useState } from "react";
-import { getTopRatedProduct } from "../fetcher";
+import { getTopSalesProduct } from "../fetcher";
 
-const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
+const LineChartSales = ({
+  isCustomLineColors = false,
+  isDashboard = false,
+  year = "2018",
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
-    getTopRatedProduct().then((res) => {
-      console.log(res.results);
-      setSearchResults(res.results);
+    getTopSalesProduct(year).then((res) => {
+      console.log("topSale: ", res.results);
+      let updatedData = [];
+      updatedData[0] = {
+        id: "2018",
+        data: [{ x: "bicycle", y: 1 }],
+      };
+      console.log("year: ", year);
+      updatedData[0]["id"] = year;
+      updatedData[0]["data"] = res.results;
+      setSearchResults(updatedData);
+      console.log("Updated Data: ", updatedData[0]);
+      console.log("searchResults: ", searchResults[0]);
     });
   });
 
@@ -71,8 +84,8 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         orient: "bottom",
         tickSize: 0,
         tickPadding: 5,
-        tickRotation: 0,
-        legend: isDashboard ? undefined : "transportation", // added
+        tickRotation: isDashboard ? -15 : 0,
+        legend: isDashboard ? undefined : "Top 10 Sales", // added
         legendOffset: 36,
         legendPosition: "middle",
       }}
@@ -82,7 +95,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         tickSize: 3,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "count", // added
+        legend: isDashboard ? undefined : "sales", // added
         legendOffset: -40,
         legendPosition: "middle",
       }}
@@ -124,4 +137,4 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   );
 };
 
-export default LineChart;
+export default LineChartSales;
