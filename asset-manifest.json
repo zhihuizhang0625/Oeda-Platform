@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Oeda-Platform/static/css/main.07a6e487.css",
+    "main.js": "/Oeda-Platform/static/js/main.c1673a9b.js",
+    "index.html": "/Oeda-Platform/index.html",
+    "main.07a6e487.css.map": "/Oeda-Platform/static/css/main.07a6e487.css.map",
+    "main.c1673a9b.js.map": "/Oeda-Platform/static/js/main.c1673a9b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.07a6e487.css",
+    "static/js/main.c1673a9b.js"
+  ]
+}
