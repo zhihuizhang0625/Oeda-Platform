@@ -1,14 +1,11 @@
-import { Box, Typography, useTheme, IconButton } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataWalmart } from "../../data/mockData";
 import Header from "../../components/Header";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getMarketReport } from "../../fetcher";
 import InputLabel from "@mui/material/InputLabel";
 
@@ -16,7 +13,6 @@ const Market = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
-    // { field: "id", headerName: "ID" },
     {
       field: "City",
       headerName: "City",
@@ -49,22 +45,9 @@ const Market = () => {
     },
   ];
 
-  const [age, setAge] = useState("");
-  const [category, setCategory] = useState("");
-  const [minPrice, setMinPrice] = useState("0");
-  const [maxPrice, setMaxPrice] = useState("1000000000");
-  const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
-  const [page, setPage] = useState("");
-  const [pageSize, setPageSize] = useState("20");
+  const [pageSize] = useState("20");
   const [searchResults, setSearchResults] = useState([]);
-
-  const updateSearchResults = () => {
-    getMarketReport(category, minPrice, maxPrice, year, month).then((res) => {
-      console.log("searchResults2:", res.results);
-      setSearchResults(res.results);
-    });
-  };
 
   const generateRandom = () => {
     var length = 8,
@@ -82,34 +65,6 @@ const Market = () => {
     getMarketReport(event.target.value).then((res) => {
       setSearchResults(res.results);
     });
-  };
-
-  const onCategoryChange = (event) => {
-    setCategory(event.target.value);
-  };
-
-  const onMinPriceChange = (event) => {
-    setMinPrice(event.target.value);
-  };
-
-  const onMaxPriceChange = (event) => {
-    setMaxPrice(event.target.value);
-  };
-
-  const onYearChange = (event) => {
-    setYear(event.target.value);
-  };
-
-  const onMonthChange = (event) => {
-    setMonth(event.target.value);
-  };
-
-  const onPageChange = (event) => {
-    setPage(event.target.value);
-  };
-
-  const onPageSizeChange = (event) => {
-    setPageSize(event.target.value);
   };
 
   return (

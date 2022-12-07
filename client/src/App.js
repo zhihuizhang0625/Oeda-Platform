@@ -1,33 +1,19 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
-import Team from "./scenes/team";
 import Search from "./scenes/search";
 import Market from "./scenes/market";
-import Contacts from "./scenes/contacts";
-import Bar from "./scenes/bar";
-import Form from "./scenes/form";
 import LineSales from "./scenes/sales";
 import LineOrders from "./scenes/orders";
-import Pie from "./scenes/pie";
-import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import SearchCity from "./scenes/searchCity";
-// import { withAuthenticator } from "@aws-amplify/ui-react";
-// import "@aws-amplify/ui-react/styles.css";
-// import { Auth } from "aws-amplify";
-// import aws_exports from "./aws-exports";
-// Auth.configure(aws_exports);
-
-// import Calendar from "./scenes/calendar/calendar";
 
 function App() {
   const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
+  const [isSidebar] = useState(true);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -36,21 +22,13 @@ function App() {
         <div className="app">
           <Sidebar isSidebar={isSidebar} />
           <main className="content">
-            {/* <Topbar setIsSidebar={setIsSidebar} /> */}
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/contacts" element={<Contacts />} />
               <Route path="/search" element={<Search />} />
               <Route path="/searchCity" element={<SearchCity />} />
               <Route path="/market" element={<Market />} />
-              <Route path="/form" element={<Form />} />
-              <Route path="/bar" element={<Bar />} />
-              <Route path="/pie" element={<Pie />} />
               <Route path="/sales" element={<LineSales />} />
               <Route path="/orders" element={<LineOrders />} />
-              <Route path="/faq" element={<FAQ />} />
-              {/* <Route path="/calendar" element={<Calendar />} /> */}
               <Route path="/geography" element={<Geography />} />
             </Routes>
           </main>

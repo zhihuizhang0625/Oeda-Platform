@@ -1,9 +1,7 @@
 import { Box } from "@mui/material";
 import Header from "../../components/Header";
 import LineChartSales from "../../components/LineChartSales";
-import { useEffect, useState } from "react";
-import { getTopSalesProduct } from "../../fetcher";
-import { mockLineData as data } from "../../data/mockData";
+import { useState } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -13,9 +11,6 @@ const LineSales = () => {
   const [year, setYear] = useState("2018");
   const handleChange = (event: SelectChangeEvent) => {
     setYear(event.target.value);
-    // getMarketReport(event.target.value).then((res) => {
-    //   setSearchResults(res.results);
-    // });
   };
 
   return (

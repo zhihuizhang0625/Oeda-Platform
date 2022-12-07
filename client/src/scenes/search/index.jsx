@@ -4,10 +4,7 @@ import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getSearchResult } from "../../fetcher";
 
 const Search = () => {
@@ -47,25 +44,18 @@ const Search = () => {
     },
   ];
 
-  const [age, setAge] = useState("");
   const [category, setCategory] = useState("");
   const [minPrice, setMinPrice] = useState("0");
   const [maxPrice, setMaxPrice] = useState("1000000000");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
-  const [page, setPage] = useState("");
   const [pageSize, setPageSize] = useState("20");
   const [searchResults, setSearchResults] = useState([]);
 
   const updateSearchResults = () => {
     getSearchResult(category, minPrice, maxPrice, year, month).then((res) => {
-      console.log("searchResults2:", res.results);
       setSearchResults(res.results);
     });
-  };
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
   };
 
   const onCategoryChange = (event) => {
@@ -88,10 +78,6 @@ const Search = () => {
     setMonth(event.target.value);
   };
 
-  const onPageChange = (event) => {
-    setPage(event.target.value);
-  };
-
   const onPageSizeChange = (event) => {
     setPageSize(event.target.value);
   };
@@ -99,32 +85,9 @@ const Search = () => {
   return (
     <Box m="20px">
       <Header
-        // title="Sales Report for the top 5 Cities With the most Walmart Stores"
         title="Transaction Info"
         subtitle="Details for the transactions that can be filtered based on price range, category, and time range"
       />
-
-      {/* <FormControl
-        style={{
-          border: "1px solid rgba(255, 255, 255, 0.7)",
-          borderRadius: "4px",
-        }}
-        sx={{ ml: 2, mb: 2, minWidth: 120 }}
-        size="small"
-      >
-        <Select
-          value={age}
-          label="Age"
-          onChange={handleChange}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl> */}
       <Box sx={{ border: "0px solid rgba(255, 255, 255, 0.7)" }}>
         <Typography
           variant="h5"
@@ -219,22 +182,6 @@ const Search = () => {
             e.key === "Enter" && updateSearchResults();
           }}
         />
-        {/* <Typography
-          variant="h5"
-          color={colors.greenAccent[400]}
-          sx={{ display: "inline" }}
-        >
-          Page:
-        </Typography>
-        <InputBase
-          sx={{ ml: 2, flex: 1, mb: 2, mr: 2, paddingLeft: "7px" }}
-          placeholder="1"
-          style={{
-            border: "1px solid rgba(255, 255, 255, 0.7)",
-            borderRadius: "4px",
-          }}
-          onChange={onPageChange}
-        /> */}
         <Typography
           variant="h5"
           color={colors.greenAccent[400]}

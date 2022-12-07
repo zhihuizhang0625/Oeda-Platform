@@ -4,29 +4,21 @@ import { tokens } from "../theme";
 import { useEffect, useState } from "react";
 import { getTopSalesProduct } from "../fetcher";
 
-const LineChartSales = ({
-  isCustomLineColors = false,
-  isDashboard = false,
-  year = "2018",
-}) => {
+const LineChartSales = ({ isDashboard = false, year = "2018" }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     getTopSalesProduct(year).then((res) => {
-      console.log("topSale: ", res.results);
       let updatedData = [];
       updatedData[0] = {
         id: "2018",
         data: [{ x: "bicycle", y: 1 }],
       };
-      console.log("year: ", year);
       updatedData[0]["id"] = year;
       updatedData[0]["data"] = res.results;
       setSearchResults(updatedData);
-      console.log("Updated Data: ", updatedData[0]);
-      console.log("searchResults: ", searchResults[0]);
     });
   });
 

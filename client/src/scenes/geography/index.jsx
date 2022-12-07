@@ -1,28 +1,15 @@
-import GeographyChart from "../../components/GeographyChart";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import { Box, Typography, useTheme, IconButton, Button } from "@mui/material";
+import { Box, useTheme, Button } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getHabitByState } from "../../fetcher";
 import { MapBrazil } from "react-brazil-map";
 
 const Geography = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [age, setAge] = useState("");
-  const [category, setCategory] = useState("");
-  const [minPrice, setMinPrice] = useState("0");
-  const [maxPrice, setMaxPrice] = useState("1000000000");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
-  const [page, setPage] = useState("");
-  const [pageSize, setPageSize] = useState("20");
+  const [pageSize] = useState("20");
   const [searchResults, setSearchResults] = useState([]);
   const [district, setDistrict] = useState("");
 
@@ -54,25 +41,11 @@ const Geography = () => {
     },
   ];
 
-  const handleClick = (event, district) => {
-    console.log(event.target);
-    console.log("district", district);
-  };
-
   const updateSearchResults = () => {
     getHabitByState(district).then((res) => {
-      console.log("searchResults2:", res.results);
-      console.log("district:", district);
       setSearchResults(res.results);
     });
   };
-
-  // useEffect(() => {
-  //   getSearchResult(category, minPrice, maxPrice, year, month).then((res) => {
-  //     console.log("searchResults2:", res.results);
-  //     setSearchResults(res.results);
-  //   });
-  // });
 
   return (
     <Box m="20px">
@@ -100,19 +73,6 @@ const Geography = () => {
         >
           Submit
         </Button>
-        {/* <Box
-          display="flex"
-          justifyContent="start"
-          mt="20px"
-          sx={{ ml: 9, flex: 1, paddingLeft: "7px" }}
-        ></Box> */}
-        {/* <Typography
-          variant="h5"
-          color={colors.grey[200]}
-          sx={{ display: "inline" }}
-        >
-          {district}
-        </Typography> */}
       </Box>
       <Box
         m="0px 0 0 0"

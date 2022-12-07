@@ -1,9 +1,6 @@
 import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
-import { mockBarData as data } from "../data/mockData";
-import { ResponsiveLine } from "@nivo/line";
-// import { mockLineData as data } from "../data/mockData";
 import { useEffect, useState } from "react";
 import { getTopRatedProduct } from "../fetcher";
 
@@ -14,7 +11,6 @@ const BarChart = ({ isDashboard = false }) => {
   useEffect(() => {
     getTopRatedProduct().then((res) => {
       setSearchResults(res.results);
-      console.log(res.results);
     });
   });
 
@@ -57,8 +53,6 @@ const BarChart = ({ isDashboard = false }) => {
       }}
       keys={["ReviewScore"]}
       indexBy="productCategory"
-      // keys={["hot dog"]}
-      // indexBy="country"
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}

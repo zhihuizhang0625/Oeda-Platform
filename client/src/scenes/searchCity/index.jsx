@@ -4,10 +4,7 @@ import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getMarketInfoByCity } from "../../fetcher";
 
 const SearchCity = () => {
@@ -53,15 +50,11 @@ const SearchCity = () => {
 
   const [year, setYear] = useState("");
   const [city, setCity] = useState("");
-  const [page, setPage] = useState("");
   const [pageSize, setPageSize] = useState("20");
   const [searchResults, setSearchResults] = useState([]);
 
   const updateSearchResults = () => {
     getMarketInfoByCity(city, year).then((res) => {
-      console.log(res.result);
-      console.log(city);
-      console.log(year);
       setSearchResults(res.results);
     });
   };
@@ -81,7 +74,6 @@ const SearchCity = () => {
   return (
     <Box m="20px">
       <Header
-        // title="Sales Report for the top 5 Cities With the most Walmart Stores"
         title="Market Info"
         subtitle="Search the market info for a specific city in Brazil"
       />

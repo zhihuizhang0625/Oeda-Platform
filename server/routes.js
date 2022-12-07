@@ -50,10 +50,8 @@ SELECT
 FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else {
-        console.log(results);
         const firstfields = ["order_2016", "difference_2015_2016"];
         const secondfields = ["order_2017", "difference_2016_2017"];
         const thirdfields = ["order_2018", "difference_2017_2018"];
@@ -85,30 +83,7 @@ FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3`,
     }
   );
 }
-//     var year = req.query.year ? req.query.year : '2018';
-//     connection.query(`WITH TEMP1 AS (SELECT COUNT(order_id) AS order_2016
-//     FROM OrderInfo
-//     WHERE order_purchase_year = 2016),
-// TEMP2 AS (SELECT COUNT(order_id) AS order_2017
-//     FROM OrderInfo
-//     WHERE order_purchase_year = 2017),
-// TEMP3 AS (SELECT COUNT(order_id) AS order_2018
-//     FROM OrderInfo
-//     WHERE order_purchase_year = 2018)
-// SELECT order_2016, order_2017, order_2018,
-// (order_2017 - order_2016) AS difference_2016_2017,
-// (order_2018 - order_2017) AS difference_2017_2018
-// FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3
-// WHERE `, function (error, results, fields) {
 
-//         if (error) {
-//             console.log(error)
-//             res.json({ error: error })
-//         } else if (results) {
-//             res.json({ results: results })
-//         }
-//     });
-// }
 async function yearly_sales(req, res) {
   var year = req.query.year ? req.query.year : "2018";
   connection.query(
@@ -127,10 +102,8 @@ concat(round((sales_2018 - sales_2017)/sales_2017*100,2),'%')AS difference_2017_
 FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else {
-        console.log(results);
         const firstfields = ["sales_2016", "difference_2015_2016"];
         const secondfields = ["sales_2017", "difference_2016_2017"];
         const thirdfields = ["sales_2018", "difference_2017_2018"];
@@ -176,10 +149,8 @@ concat(round(((review_2018 - review_2017)/review_2017)*100,2),'%') AS difference
 FROM TEMP1 NATURAL JOIN TEMP2;`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else {
-        console.log(results);
         const secondfields = ["review_2017", "difference_2016_2017"];
         const thirdfields = ["review_2018", "difference_2017_2018"];
         if (year == 2017) {
@@ -216,10 +187,8 @@ SELECT state_2016, null AS difference_2015_2016,
 FROM TEMP1 NATURAL JOIN TEMP2 NATURAL JOIN TEMP3;`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else {
-        console.log(results);
         const firstfields = ["state_2016", "difference_2015_2016"];
         const secondfields = ["state_2017", "difference_2016_2017"];
         const thirdfields = ["state_2018", "difference_2017_2018"];
@@ -272,7 +241,6 @@ async function search(req, res) {
  AND price > ${low} AND price < ${high} AND order_purchase_year LIKE '%${year}%' AND order_purchase_month LIKE '%${month}%'`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else if (results) {
         res.json({ results: results });
@@ -337,7 +305,6 @@ WHERE tto.year = tp.year AND tto.year LIKE '%${year}' AND tp.sales >= ALL (SELEC
 ORDER BY tc.walmart DESC, tto.year`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else if (results) {
         res.json({ results: results });
@@ -400,7 +367,6 @@ WHERE tto.year = tp.year AND tto.year LIKE '%${year}%' AND tc.City LIKE '%${city
 ORDER BY tc.walmart DESC, tto.year`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else if (results) {
         res.json({ results: results });
@@ -442,7 +408,6 @@ FROM temp2
 `,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else if (results) {
         res.json({ results: results });
@@ -478,7 +443,6 @@ ORDER BY avg_review_score DESC, std_dev_review_score ASC
 LIMIT 10`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else if (results) {
         res.json({ results: results });
@@ -538,7 +502,6 @@ async function all_habit(req, res) {
   LIMIT ${page}, ${pagesize}`,
       function (error, results, fields) {
         if (error) {
-          console.log(error);
           res.json({ error: error });
         } else if (results) {
           res.json({ results: results });
@@ -581,7 +544,6 @@ async function all_habit(req, res) {
   ORDER BY total_paydiff DESC`,
       function (error, results, fields) {
         if (error) {
-          console.log(error);
           res.json({ error: error });
         } else if (results) {
           res.json({ results: results });
@@ -629,7 +591,6 @@ async function habit(req, res) {
   ORDER BY total_paydiff DESC`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else if (results) {
         res.json({ results: results });
@@ -646,7 +607,6 @@ async function transaction(req, res) {
     LIMIT 10;`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else if (results) {
         res.json({ results: results });
@@ -666,7 +626,6 @@ async function top_order(req, res) {
  LIMIT 10;`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else if (results) {
         res.json({ results: results });
@@ -687,7 +646,6 @@ async function top_sales(req, res) {
  LIMIT 10;`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else if (results) {
         res.json({ results: results });
@@ -707,7 +665,6 @@ async function top_review(req, res) {
       LIMIT 10;`,
     function (error, results, fields) {
       if (error) {
-        console.log(error);
         res.json({ error: error });
       } else if (results) {
         res.json({ results: results });
