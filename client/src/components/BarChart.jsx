@@ -90,7 +90,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: isDashboard ? -15 : 0,
-        legend: isDashboard ? undefined : "productCategory", // changed
+        legend: isDashboard ? undefined : "Product Categories", // changed
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -98,7 +98,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "productCategory", // changed
+        legend: isDashboard ? undefined : "Average Review Score", // changed
         legendPosition: "middle",
         legendOffset: -40,
       }}

@@ -16,8 +16,8 @@ const LineSales = () => {
   return (
     <Box m="20px">
       <Header
-        title="Best Selling Products"
-        subtitle="Product category and sales for top 10 category with the highest amount of sales"
+        title="Top Products Ranked by Sales"
+        subtitle="Top 10 revenue-generating products by category (with highest sales)"
       />
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
         <InputLabel id="demo-simple-select-standard-label">Year</InputLabel>

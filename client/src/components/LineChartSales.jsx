@@ -77,7 +77,7 @@ const LineChartSales = ({ isDashboard = false, year = "2018" }) => {
         tickSize: 0,
         tickPadding: 5,
         tickRotation: isDashboard ? -15 : 0,
-        legend: isDashboard ? undefined : "Top 10 Sales", // added
+        legend: isDashboard ? undefined : "Product Categories", // added
         legendOffset: 36,
         legendPosition: "middle",
       }}

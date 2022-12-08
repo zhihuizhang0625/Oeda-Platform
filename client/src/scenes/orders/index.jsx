@@ -16,8 +16,8 @@ const LineOrder = () => {
   return (
     <Box m="20px">
       <Header
-        title="Best Selling Products"
-        subtitle="Product category and order number for top 10 category with the highest amount of orders"
+        title="Top Trending Products"
+        subtitle="Top 10 best-selling products by category (with most orders)"
       />
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
         <InputLabel id="demo-simple-select-standard-label">Year</InputLabel>
