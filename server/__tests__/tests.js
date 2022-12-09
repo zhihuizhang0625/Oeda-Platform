@@ -10,166 +10,298 @@ const app = require('../server');
 
 
 test("GET /hello no parameters", async () => {
-    await supertest(app).get("/hello?")
+    await supertest(app).get("/hello")
       .expect(200)
       .then((response) => {
         // Check text 
-        expect(response.text).toBe("Hello! Welcome to the FIFA server!")
+        expect(response.text).toBe("Hi! Welcome to the Oeda Platform!")
       });
 });
 
 test("GET /hello with name", async () => {
   
-    await supertest(app).get("/hello?name=Steve")
+    await supertest(app).get("/hello?name=Clara")
       .expect(200)
       .then((response) => {
         // Check text 
-        expect(response.text).toBe("Hello, Steve! Welcome to the FIFA server!")
+        expect(response.text).toBe("Hi, Clara! Welcome to the Oeda Platform!")
       });
 });
 
 
-test("GET /jersey color without name", async () => {
+test("GET /YearlyOrder default", async () => {
   
-    for (var i = 0; i < 5; i++) {
-    await supertest(app).get("/jersey/color")
-      .expect(200)
-      .then((response) => {
-        expect(response.body.message).toBe('Hello, player!')
-        expect(response.body.jersey_color).not.toBe('white')
-      });
-    }
+  await supertest(app).get("/YearlyOrder")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.yearlyorder_2018)
+
+  });
 });
 
-test("GET /jersey color with name", async () => {
+test("GET /YearlyOrder with year", async () => {
   
-    for (var i = 0; i < 5; i++) {
-    await supertest(app).get("/jersey/color?name=Lauder")
-      .expect(200)
-      .then((response) => {
-        expect(response.body.message).toBe('Hello, Lauder!')
-        expect(response.body.jersey_color).not.toBe('white')
-        expect(response.body.jersey_color == 'red' || response.body.jersey_color == 'blue').toBeTruthy()
-      });
-    }
+  await supertest(app).get("/YearlyOrder?year=2017")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.yearlyorder_2017)
+
+  });
 });
 
-test("GET /jersey number without name", async () => {
-  for (var i = 0; i < 5; i++) {
-    await supertest(app).get("/jersey/number")
-      .expect(200)
-      .then((response) => {
-        expect(response.body.message).toBe('Hello, player!')
-        expect(isNaN(response.body.jersey_number)).toBe(false)
-        expect(response.body.jersey_number).toBeGreaterThanOrEqual(1)
-        expect(response.body.jersey_number).toBeLessThanOrEqual(20)
-        
-      });
-    }
+test("GET /YearlySales default", async () => {
+  
+  await supertest(app).get("/YearlySales")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.yearlysales_2018)
+
+  });
 });
 
-test("GET /jersey number with name", async () => {
-  for (var i = 0; i < 5; i++) {
-    await supertest(app).get("/jersey/number?name=Lauder")
-      .expect(200)
-      .then((response) => {
-        expect(response.body.message).toBe('Hello, Lauder!')
-        expect(isNaN(response.body.jersey_number)).toBe(false)
-        expect(response.body.jersey_number).toBeGreaterThanOrEqual(1)
-        expect(response.body.jersey_number).toBeLessThanOrEqual(20)
-      });
-    }
+test("GET /YearlySales with year", async () => {
+  
+  await supertest(app).get("/YearlySales?year=2017")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.yearlysales_2017)
+
+  });
 });
 
-test("GET /jersey other value with no name", async () => {
-    await supertest(app).get("/jersey/non")
-      .expect(200)
-      .then((response) => {
-        expect(response.body.message).toBe('Hello, player, we like your jersey!')
-      });
+test("GET /YearlyReview default", async () => {
+  
+  await supertest(app).get("/YearlyReview")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.yearlyreview_2018)
+
+  });
+});
+
+test("GET /YearlyReview with year", async () => {
+  
+  await supertest(app).get("/YearlyReview?year=2017")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.yearlyreview_2017)
+
+  });
+});
+
+test("GET /YearlyState default", async () => {
+  
+  await supertest(app).get("/YearlyState")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.yearlystate_2018)
+
+  });
+});
+
+test("GET /YearlyReview with year", async () => {
+  
+  await supertest(app).get("/YearlyState?year=2017")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.yearlystate_2017)
+
+  });
+});
+
+test("GET /search default", async () => {
+  
+  await supertest(app).get("/search")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(423)
+  });
+});
+
+test("GET /search with param", async () => {
+  
+  await supertest(app).get("/search?category=perf&low=0&high=500&year=2018&month=5")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(11)
+  });
+});
+
+test("GET /allmarket default", async () => {
+  
+  await supertest(app).get("/allmarket")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(10)
+    expect(response.body.results).toStrictEqual(results.all_market)
+
+  });
+});
+
+test("GET /allmarket with year", async () => {
+  
+  await supertest(app).get("/allmarket?year=2017")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(5)
+    expect(response.body.results).toStrictEqual(results.all_market_2017)
+
+  });
+});
+
+test("GET /market default", async () => {
+  
+  await supertest(app).get("/market")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(10)
+    expect(response.body.results).toStrictEqual(results.market)
+
+  });
+});
+
+test("GET /market with year city", async () => {
+  
+  await supertest(app).get("/market?city=salvador&year=2017")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.market_salvador_2017)
+
+  });
+});
+
+test("GET /allreview default", async () => {
+  
+  await supertest(app).get("/allreview")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(10)
+    expect(response.body.results).toStrictEqual(results.all_review)
+
+  });
+});
+
+test("GET /review default", async () => {
+  
+  await supertest(app).get("/review")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.review_homeappliance)
+
+  });
+});
+
+test("GET /review with category", async () => {
+  
+  await supertest(app).get("/review?category=toys")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.review_toys)
+
+  });
+});
+
+test("GET /allhabit default", async () => {
+  
+  await supertest(app).get("/allhabit")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(27)
+  });
 });
 
 
-// **********************************
-//        GENERAL ROUTES TESTS
-// **********************************
-
-test("GET /players no pagination", async () => {
-  await supertest(app).get("/players")
-    .expect(200)
-    .then((response) => {
-      expect(response.body.results.length).toEqual(1263)
-    });
+test("GET /habit default", async () => {
+  
+  await supertest(app).get("/habit")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(27)
+  });
 });
 
-test("GET /matches no pagination", async () => {
-  await supertest(app).get("/matches/D1")
-    .expect(200)
-    .then((response) => {
-      expect(response.body.results.length).toEqual(306)
-    });
+test("GET /habit with state", async () => {
+  
+  await supertest(app).get("/habit?state=RR")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(1)
+    expect(response.body.results).toStrictEqual(results.state)
+
+  });
 });
 
-// **********************************
-//        MATCH TESTS
-// **********************************
+test("GET /transaction default", async () => {
+  
+  await supertest(app).get("/transaction")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(10)
+  });
+});
 
-test("GET /match basic", async () => {
-  await supertest(app).get("/match?id=132")
-    .expect(200)
-    .then((response) => {
-      expect(response.body.results.length).toEqual(1)
-      expect(response.body.results).toStrictEqual(results.match1)
+test("GET /topOrder default", async () => {
+  
+  await supertest(app).get("/topOrder")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(10)
+  });
+});
 
-    });
+test("GET /topOrder with year", async () => {
+  
+  await supertest(app).get("/topOrder?year=2016")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(4)
+  });
+});
+
+test("GET /topSales default", async () => {
+  
+  await supertest(app).get("/topSales")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(10)
+  });
+});
+
+test("GET /topSales with year", async () => {
+  
+  await supertest(app).get("/topSales?year=2016")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(4)
+  });
 });
 
 
-// **********************************
-//        PLAYER ROUTES TESTS
-// **********************************
-
-test("GET /player basic 1 - N", async () => {
-  await supertest(app).get("/player?id=20801")
-    .expect(200)
-    .then((response) => {
-      expect(response.body.results.length).toEqual(1)
-      expect(response.body.results).toStrictEqual(results.player1N)
-
-    });
+test("GET /topReview default", async () => {
+  
+  await supertest(app).get("/topReview")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(10)
+  });
 });
 
-test("GET /player basic 2 - GK", async () => {
-  await supertest(app).get("/player?id=51539")
-    .expect(200)
-    .then((response) => {
-      expect(response.body.results.length).toEqual(1)
-      expect(response.body.results).toStrictEqual(results.player1GK)
-
-    });
-});
-
-
-// **********************************
-//        SEARCH ROUTES TESTS
-// **********************************
-
-test("GET /search/matches basic 1", async () => {
-  await supertest(app).get("/search/matches?Home=Bay&Away=Hertha")
-    .expect(200)
-    .then((response) => {
-      expect(response.body.results.length).toEqual(1)
-      expect(response.body.results).toStrictEqual(results.match_search1)
-
-    });
-});
-
-test("GET /search/players basic 1", async () => {
-  await supertest(app).get("/search/players?Name=Pepe&Nationality=Spain&Club=Lazio")
-    .expect(200)
-    .then((response) => {
-      expect(response.body.results.length).toEqual(1)
-      expect(response.body.results).toStrictEqual(results.player_search1)
-
-    });
+test("GET /topReview with year", async () => {
+  
+  await supertest(app).get("/topReview?year=2016")
+  .expect(200)
+  .then((response) => {
+    expect(response.body.results.length).toEqual(0)
+  });
 });
