@@ -178,7 +178,7 @@ const SearchCity = () => {
           columns={columns}
           components={{ Toolbar: GridToolbar }}
           getRowId={(row) => row.Sales}
-          pageSize={pageSize === 0 ? 20 : pageSize}
+          pageSize={pageSize ? parseInt(pageSize) : 20}
           rowsPerPageOptions={[5, 10, 20]}
           pagination
         />
