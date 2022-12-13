@@ -60,3 +60,6 @@ This folder holds the server application files, tests, and dependencies (as requ
 This folder contains the test files for the API:
 - `results.json`: Stores (some) expected results for the tests in a json encoding.
 - `tests.js`: Stores the tests for the API.
+
+### Instructions for building it locally
+The users need to first open server, then open the client folder.
