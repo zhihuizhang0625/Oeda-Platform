@@ -60,9 +60,9 @@ This folder contains the test files for the API:
 
 ## Instructions for building the App locally
 ### Set Up
-You  will  need  the latest  version  of  Node.js  on  your  machine  for  this  assignment.  You  should  verify that the following commands run and give a reasonable output on your terminal: 
+You  will  need Node.js  on  your  machine  for  this  project.  You  should  verify that the following commands run and give a reasonable output on your terminal: 
 - `npm -v`
-- `node - v`
+- `node -v`
 
 Open a new terminal and `cd` into the server folder, then run `npm install`:
 ```
