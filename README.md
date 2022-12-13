@@ -61,8 +61,8 @@ This folder contains the test files for the API:
 - `results.json`: Stores (some) expected results for the tests in a json encoding.
 - `tests.js`: Stores the tests for the API.
 
-### Instructions for building it locally
-#### Set Up
+## Instructions for building it locally
+### Set Up
 You  will  need  the latest  version  of  Node.js  on  your  machine  for  this  assignment.  You  should  verify that the following commands run and give a reasonable output on your terminal: 
 - `npm -v`
 - `node - v`
