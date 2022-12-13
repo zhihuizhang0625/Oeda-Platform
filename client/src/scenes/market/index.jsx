@@ -126,7 +126,6 @@ const Market = () => {
           components={{ Toolbar: GridToolbar }}
           getRowId={(row) => generateRandom()}
           pageSize={pageSize ? parseInt(pageSize) : 20}
-          rowsPerPageOptions={[5, 10, 20]}
           pagination
         />
       </Box>

@@ -113,7 +113,6 @@ const Geography = () => {
           components={{ Toolbar: GridToolbar }}
           getRowId={(row) => row.total_paydiff}
           pageSize={pageSize ? parseInt(pageSize) : 20}
-          rowsPerPageOptions={[5, 10, 20]}
           pagination
         />
       </Box>
