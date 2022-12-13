@@ -1,10 +1,7 @@
 # CIS550-Final-Project
 ## Description of Project
 
-This project aims to develop a user-friendly, intuitive BI/BA solution for e-commerce by concentrating on the sales data of online merchants. Data on online retail sales provide helpful information for firms, given the steady expansion of e-commerce. Our research will investigate the connection between consumer preferences and Brazilian online markets and provide valuable graphs based on the information. We can assist retailers in better understanding the overall industry, developing sales strategies that are more in line with market trends, and creating products that satisfy customer wants by studying the data of people's online purchasing preferences.
-
-
-Our project will maintain regional data in addition to sales and marketing insights that solely include corporate sales data to conduct a more thorough market study. Since our data combines geographic information, users can efficiently conduct regional market research because they can easily understand the consumption patterns of various regions based on area characteristics.
+The rapid development of the Internet has made online shopping more and more common. People's shopping habits are also gradually shifting from offline to online. Given the gradual growth of e-commerce, insights from online retail sales data are helpful for businesses. Our project will focus on the sales data of online merchants to create a user-friendly, intuitive Business Intelligence or Business Analytics tool for e-commerce. This project will explore the relationship between people's preferences and Brazilian e-commerce markets and generate relevant graphs based on the data. By analyzing the data of people's online shopping preferences, we can help merchants better understand the entire market, formulate sales strategies that are more in line with market trends, and develop products that meet consumer needs. Typically, analytics for sales and marketing insights only include company sales data. Our analysis will retain geographical data for more in-depth market analysis. Since our data combines geographic information, users can understand the consumption habits of different regions based on the characteristics of areas, which provides convenience for regional market research.
 
 ## Project Structure
 
