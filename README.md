@@ -62,7 +62,6 @@ This folder contains the test files for the API:
 - `tests.js`: Stores the tests for the API.
 
 ### Instructions for building it locally
-### Instructions for building it locally
 #### Set Up
 You  will  need  the l atest  version  of  Node.js  on  your  machine  for  this  assignment.  You  should  verify that the following commands run and give a reasonable output on your terminal: 
 - `npm -v`
