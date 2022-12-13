@@ -16,7 +16,7 @@ const LineOrder = () => {
   return (
     <Box m="20px">
       <Header
-        title="Top Trending Products"
+        title="Best Selling Products Ranked by Order Amount"
         subtitle="Top 10 best-selling products by category (with most orders)"
       />
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>

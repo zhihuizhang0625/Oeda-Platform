@@ -76,7 +76,7 @@ const LineChartOrder = ({ isDashboard = false, year = "2018" }) => {
         tickSize: 0,
         tickPadding: 5,
         tickRotation: isDashboard ? -15 : 0,
-        legend: isDashboard ? undefined : "Total Number of Orders", // added
+        legend: isDashboard ? undefined : "Product Categories", // added
         legendOffset: 36,
         legendPosition: "middle",
       }}
@@ -86,7 +86,7 @@ const LineChartOrder = ({ isDashboard = false, year = "2018" }) => {
         tickSize: 3,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "Product Categories", // added
+        legend: isDashboard ? undefined : "Total Number of Orders", // added
         legendOffset: -40,
         legendPosition: "middle",
       }}

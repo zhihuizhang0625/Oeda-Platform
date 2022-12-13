@@ -87,8 +87,8 @@ const LineChartSales = ({ isDashboard = false, year = "2018" }) => {
         tickSize: 3,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "sales", // added
-        legendOffset: -40,
+        legend: isDashboard ? undefined : "Sales", // added
+        legendOffset: -50,
         legendPosition: "middle",
       }}
       enableGridX={false}

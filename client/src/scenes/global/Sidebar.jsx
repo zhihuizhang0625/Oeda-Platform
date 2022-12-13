@@ -131,7 +131,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Geographic districution"
+              title="Geographic Distribution"
               to="/geography"
               icon={<TravelExploreIcon />}
               selected={selected}
