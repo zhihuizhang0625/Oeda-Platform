@@ -67,6 +67,24 @@ You  will  need  the latest  version  of  Node.js  on  your  machine  for  this 
 - `npm -v`
 - `node - v`
 
-The  recommended   Node  version i s  14.17.x  ,  where  x  can  be  any  number  -  slightly older/newer versions  of  Node  would  probably  work  as  well.
- Users will  also  need  to  use  the  (built-in)  terminal  for  your  operating  system  and should  have  a  code editor (with the ability to open .  md  ,  .js  , and .  json  files).
-The users need to first open server, then open the client folder.
+Open a new terminal and `cd` into the server folder, then run `npm install`:
+```
+cd server
+```
+```
+npm install
+```
+Do the same for the client (you should run `cd ../client` instead of `cd client` if in the `/server` folder):
+```
+cd client
+```
+```
+npm install
+```
+This will download and save the required dependencies into the `node_modules` folder within the `/client` and `/server` directories.
+
+### Run the app
+1. Start the server application by running the command `npm start` in a terminal window
+2. After starting the server application, which should run on port 8080, you should start the React application by running the command `npm start` within the `/client` directory in a terminal window
+
+**Note**: It is imperative that you run the server application before starting the client since the client assumes that the server is able to communicate and return necessary data.
