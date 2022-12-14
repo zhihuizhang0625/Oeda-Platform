@@ -32,9 +32,9 @@ This folder contains the main source code for the React application. Specificall
 - `theme.js`: This file sets up all colors and types of the website. It contains color tokens and applies material UI settings that allow users to change between light and dark color modes or create themes. It also has the topography with font family and font size.
 
 `/scenes` This folder contains files for React components corresponding to the pages in the application (see the sections below for more details):
-- `/bar`: index.jsx file in the bar folder renders a bar chart for the top 10 rated products.
-- `/dashboard`: The index.jsx file inside the dashboard folder acts like a container where we render all the subcomponents of the page. It helps to split the code into small chunks. Also, it implements and combines all components of a dashboard page, including search bars, graphs, titles, sidebars, etc.
-- `/geography`: This folder contains a map of the Brazilian cities rendered by the index.jsx. It displays products and sales information of specific locations.
+- `/bar`: `index.jsx` file in the bar folder renders a bar chart for the top 10 rated products.
+- `/dashboard`: The `index.jsx` file inside the dashboard folder acts like a container where we render all the subcomponents of the page. It helps to split the code into small chunks. Also, it implements and combines all components of a dashboard page, including search bars, graphs, titles, sidebars, etc.
+- `/geography`: This folder contains a map of the Brazilian cities rendered by the `index.jsx`. It displays products and sales information of specific locations.
 - `/global`: The global folder has components that can be utilized for all pages in the website. The `SiderBar.jsx` file allows access to the side bar for all pages. `SiderBar.jsx` implements all components of the side bar, including styles, links, tokens, and icons. It also enable the functionality of collapsing.
 - `/market`: 
 - `/orders`: 
