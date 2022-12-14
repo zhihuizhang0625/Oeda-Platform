@@ -37,8 +37,8 @@ This folder contains the main source code for the React application. Specificall
 - `/geography`: This folder contains a map of the Brazilian cities rendered by the `index.jsx`. It displays products and sales information of specific locations.
 - `/global`: The global folder has components that can be utilized for all pages in the website. The `SiderBar.jsx` file allows access to the side bar for all pages. `SiderBar.jsx` implements all components of the side bar, including styles, links, tokens, and icons. It also enables the functionality of collapsing.
 - `/market`: This folder corresponds the market analysis page of the website. The `index.jsx` of this folder renders a table with all market analysis related components. It also implements functionalities like search, filter, change table size, export, etc.
-- `/orders`: The orders folder stores the page for the Best Selling Products Ranked by Order Amount. Its `index.jsx` file implements and renders a line chart with the top trending products in different years to show changes in popular products over time.
-- `/sales`: 
+- `/orders`: The orders folder stores the page for the Best Selling Products Ranked by Order Amount. Its `index.jsx` file implements and renders a line chart with the top trending products in different years to show changes in popular products over time. It also implements labels, titles, styles, etc.
+- `/sales`: This folder has a similar structure with the orders folder. It contains all layouts, styles, infomation, etc. of the Top 10 revenue-generating products by category (with highest sales). The `index.jsx` file implements the page with a a line chart with the best sales products in different categories to display market trends for other products. 
 - `/search`: 
 - `/searchCity`:
 
