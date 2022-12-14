@@ -32,7 +32,7 @@ This folder contains the main source code for the React application. Specificall
 - `theme.js`: This file sets up all colors and types of the website. It contains color tokens and applies material UI settings that allow users to change between light and dark color modes or create themes. It also has the topography with font family and font size.
 
 `/scenes` This folder contains files for React components corresponding to the pages in the application (see the sections below for more details):
-- `/bar`: index.js file acts like a container where you render all the subcomponents of the page.This helps you to split the code into smaller chunks which improves readability and testing
+- `/bar`: index.js file in the bar folder acts like a container where we render all the subcomponents of the page. It renders a bar chart for the top 10 rated products.
 - `/dashboard`: 
 - `/geography`: 
 - `/global`: 
