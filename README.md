@@ -32,15 +32,15 @@ This folder contains the main source code for the React application. Specificall
 - `theme.js`: This file sets up all colors and types of the website. It contains color tokens and applies material UI settings that allow users to change between light and dark color modes or create themes. It also has the topography with font family and font size.
 
 `/scenes` This folder contains files for React components corresponding to the pages in the application (see the sections below for more details):
-- `/bar`: The `index.jsx` file in this folder generates a bar chart for the top 10 rated products.
-- `/dashboard`: The `index.jsx` file in the dashboard folder combines all components of a dashboard page, including search bars, graphs, titles, sidebars, etc.
-- `/geography`: The `index.jsx` file in this folder generate a map of the Brazilian cities and display products and sales information of specific locations.
-- `/global`: The `SiderBar.jsx` file in the global folder should be used for all pages. The `SiderBar.jsx` file contains all styles, links, tokens, and icons. It also has the functionality of collapse.
-- `/market`: The `index.jsx` file in the market folder implements a market analysis page containing titles and subtitles and imports the search functionality.
-- `/orders`: The orders folder generates a line chart with the top trending products in different years to show changes in popular products over time.
-- `/sales`: The sales folder creates a line chart with the best sales products in different categories to display market trends for other products.
-- `/search`: The search folder enables the search functionality for market information. Allows users to search based on specified parameters.
-- `/searchCity`: The searchCity folder implements the search functionality for market information. Allows users to search market information by city.
+- `/bar`: index.js file acts like a container where you render all the subcomponents of the page.This helps you to split the code into smaller chunks which improves readability and testing
+- `/dashboard`: 
+- `/geography`: 
+- `/global`: 
+- `/market`: 
+- `/orders`: 
+- `/sales`: 
+- `/search`: 
+- `/searchCity`:
 
 `/components` Similar to the `/scenes` folder, this folder contains files for React components corresponding to smaller, reusable components, especially those used by pages. This application has a bar chart for top-rated products (implemented by `BarChart.jsx`) and a geography chart (implemented by `GeographyChart.jsx`). It also has the header (implemented by `Header.jsx`), a line chart of top trending products (implemented by `LineChartOrder.jsx`), line chart of the highest sales product (implemented by `LineChartSales.jsx`). Moreover, the progress circle (implemented by `ProgressCircle.jsx`) and the start box (implemented by `StatBox.jsx`) are included. All of these components are used on more than one page. This format is excellent for more extensive applications (such as the project).
 
