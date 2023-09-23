@@ -1,4 +1,7 @@
 # Oeda-Platform
+
+Presentation Link: https://drive.google.com/file/d/1Eb3thIByufu9zGxhGYSla1YeZyrsR_cp/view?usp=sharing
+
 ## Description of Project
 
 Online shopping is becoming more and more popular as a result of the Internet's quick development. The way that people purchase is also steadily changing from offline to online. Data on online retail sales provide useful information for firms given the slow but steady expansion of e-commerce. In order to develop a user-friendly, intuitive Business Intelligence or Business Analytics solution for e-commerce, our project will concentrate on the sales data of online merchants. With the use of the data, this project will investigate the connection between consumer preferences and Brazilian e-commerce marketplaces and provide pertinent infographics. We can assist retailers in better understanding the overall industry, developing sales tactics that are more in line with market trends, and creating items that satisfy customer wants by studying the data of people's online purchasing preferences. Analytics for sales and marketing insights often just involve data on firm sales. Geographical information will be kept in our study for a more thorough market analysis. Because our data integrates geographic information, customers may easily do regional market research because they can easily comprehend the consumption patterns of various regions depending on area features.
